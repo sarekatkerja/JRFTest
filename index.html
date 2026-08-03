@@ -1,0 +1,1905 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+<title>JRF Expo 2026</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Sora:wght@400;600;700;800&family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+<style>
+:root {
+  --red: #FF0000;
+  --red-deep: #C10000;
+  --red-dim: #FFE3E0;
+  --black: #0A0A0A;
+  --white: #FFFFFF;
+  --bg: #F1F0EC;
+  --surface: #FFFFFF;
+  --text: #0A0A0A;
+  --text2: #7A776F;
+  --text3: #ACA99F;
+  --border: #E7E4DC;
+  --nav-h: 78px;
+  --hdr-h: 60px;
+  --r: 22px;
+  --r-sm: 14px;
+  --r-lg: 30px;
+  --pill: 999px;
+  --sh: 0 1px 2px rgba(10,10,10,0.04);
+  --sh-md: 0 8px 24px rgba(10,10,10,0.10);
+  --f-head: 'Sora', -apple-system, sans-serif;
+  --f-body: 'Inter', -apple-system, sans-serif;
+}
+*,*::before,*::after{box-sizing:border-box;margin:0;padding:0;-webkit-tap-highlight-color:transparent}
+html,body{height:100%;font-family:var(--f-body);background:var(--bg);color:var(--text);overflow:hidden}
+#app{height:100%;display:flex;flex-direction:column;max-width:430px;margin:0 auto;background:var(--bg);position:relative;overflow:hidden}
+.screen{position:absolute;inset:0;display:flex;flex-direction:column;background:var(--bg);opacity:0;pointer-events:none;transition:opacity .2s ease,transform .2s ease;transform:translateX(30px)}
+.screen.active{opacity:1;pointer-events:all;transform:translateX(0)}
+.screen.back{transform:translateX(-30px)}
+.icon{display:inline-flex;flex-shrink:0}
+.icon svg{display:block}
+
+/* ── SCROLLABLE BODY ── */
+.scroll-body{flex:1;overflow-y:auto;overflow-x:hidden;-webkit-overflow-scrolling:touch;padding-bottom:calc(var(--nav-h) + 12px)}
+
+/* ── HEADER ── */
+.hdr{height:var(--hdr-h);display:flex;align-items:center;padding:0 16px;gap:12px;background:var(--bg);color:var(--text);flex-shrink:0;position:relative;z-index:10}
+.hdr-logo{font-family:var(--f-head);font-weight:800;font-size:19px;letter-spacing:-.5px;color:var(--text);flex:1}
+.hdr-logo span{color:var(--red)}
+.hdr-back{width:38px;height:38px;display:flex;align-items:center;justify-content:center;cursor:pointer;color:var(--text);border-radius:50%;background:var(--surface);box-shadow:var(--sh)}
+.hdr-icon{width:38px;height:38px;display:flex;align-items:center;justify-content:center;cursor:pointer;border-radius:50%;background:var(--black);color:#fff;font-size:14px;font-weight:800;font-family:var(--f-head)}
+.hdr-title{font-family:var(--f-head);font-size:17px;font-weight:800;flex:1;text-align:center;color:var(--text)}
+.hdr-bell{width:38px;height:38px;display:flex;align-items:center;justify-content:center;cursor:pointer;color:var(--text);border-radius:50%;background:var(--surface);box-shadow:var(--sh);position:relative;flex-shrink:0}
+.bell-dot{position:absolute;top:6px;right:7px;width:8px;height:8px;border-radius:50%;background:var(--red);border:2px solid var(--surface)}
+
+/* ── BOTTOM NAV (floating pill) ── */
+#nav-wrap{position:absolute;left:0;right:0;bottom:0;z-index:50;padding:10px 16px calc(10px + env(safe-area-inset-bottom));background:linear-gradient(to top,var(--bg) 60%,transparent)}
+#nav{height:66px;background:var(--surface);border-radius:var(--pill);display:flex;align-items:stretch;box-shadow:0 10px 32px rgba(10,10,10,.16),0 2px 6px rgba(10,10,10,.08);border:1px solid rgba(10,10,10,.06)}
+.nav-item{flex:1;display:flex;align-items:center;justify-content:center;cursor:pointer;color:var(--text3);position:relative}
+.nav-item.active{color:var(--text)}
+.nav-icon-wrap{width:42px;height:42px;border-radius:50%;display:flex;align-items:center;justify-content:center;transition:background .15s,color .15s}
+.nav-item.active .nav-icon-wrap{background:var(--red);color:#fff}
+
+/* ── BUTTONS ── */
+.btn{display:inline-flex;align-items:center;justify-content:center;gap:6px;padding:0 22px;height:48px;border-radius:var(--pill);font-family:var(--f-body);font-size:15px;font-weight:700;cursor:pointer;border:none;transition:opacity .15s,transform .1s;text-decoration:none;white-space:nowrap}
+.btn:active{transform:scale(.97)}
+.btn-primary{background:var(--black);color:#fff}
+.btn-accent{background:var(--red);color:#fff}
+.btn-secondary{background:var(--surface);color:var(--text);border:1.5px solid var(--border)}
+.btn-ghost{background:rgba(255,255,255,.16);color:#fff}
+.btn-full{width:100%}
+.btn-sm{height:38px;font-size:13px;padding:0 16px}
+
+/* ── CARDS ── */
+.card{background:var(--surface);border-radius:var(--r);box-shadow:var(--sh);overflow:hidden}
+.card-pad{padding:18px}
+
+/* ── BADGE (monochrome — fill = runner, outline = visitor) ── */
+.badge{display:inline-flex;align-items:center;gap:5px;padding:5px 12px;border-radius:var(--pill);font-size:12px;font-weight:800;letter-spacing:.2px}
+.badge-runner{background:var(--black);color:#fff}
+.badge-nonrunner{background:transparent;color:var(--text);border:1.5px solid var(--border)}
+.badge-cat{background:var(--bg);color:var(--text2);font-size:11px;font-weight:700;padding:4px 11px;border-radius:var(--pill)}
+
+/* ── SECTION TITLE ── */
+.section-title{font-family:var(--f-head);font-size:20px;font-weight:800;letter-spacing:-.3px;color:var(--text);margin-bottom:12px}
+.eyebrow{font-size:11px;font-weight:800;text-transform:uppercase;letter-spacing:1px;color:var(--red);margin-bottom:6px}
+
+/* ── PILLS / FILTER ── */
+.pill-row{display:flex;gap:8px;overflow-x:auto;padding:0 16px 4px;scrollbar-width:none}
+.pill-row::-webkit-scrollbar{display:none}
+.pill{padding:8px 16px;border-radius:var(--pill);font-size:13px;font-weight:700;cursor:pointer;border:1.5px solid var(--border);background:var(--surface);color:var(--text2);white-space:nowrap;transition:all .15s;flex-shrink:0}
+.pill.active{background:var(--black);color:#fff;border-color:var(--black)}
+
+/* ── ACTIVITY / LIST ROW ── */
+.act-card{display:flex;gap:14px;padding:16px 18px;background:var(--surface);border-bottom:1px solid var(--border);cursor:pointer;transition:background .15s;align-items:center}
+.act-card:active{background:var(--bg)}
+.act-card:last-child{border-bottom:none}
+.act-time{font-family:var(--f-head);font-size:14px;font-weight:800;color:var(--red);min-width:52px}
+.act-info{flex:1}
+.act-name{font-family:var(--f-head);font-size:15px;font-weight:700;line-height:1.3}
+.act-loc{font-size:12px;color:var(--text2);margin-top:3px}
+.act-chevron{color:var(--text3);flex-shrink:0}
+
+/* ── BRAND CARD (initials avatar, no emoji) ── */
+.brand-card{background:var(--surface);border-radius:var(--r);box-shadow:var(--sh);cursor:pointer;overflow:hidden;transition:transform .15s}
+.brand-card:active{transform:scale(.97)}
+.brand-logo-wrap{height:76px;display:flex;align-items:center;justify-content:center;background:var(--bg)}
+.brand-avatar{width:44px;height:44px;border-radius:var(--r-sm);background:var(--black);color:#fff;display:flex;align-items:center;justify-content:center;font-family:var(--f-head);font-weight:700;font-size:15px}
+.brand-body{padding:12px 14px}
+.brand-name{font-family:var(--f-head);font-size:15px;font-weight:700}
+.brand-zone{font-size:11px;color:var(--text2);margin-top:4px}
+
+/* ── STAMP ── */
+.stamp-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:12px;padding:18px}
+.stamp-dot{aspect-ratio:1;border-radius:50%;display:flex;align-items:center;justify-content:center;transition:transform .15s,background .2s;position:relative;color:var(--red)}
+.stamp-dot.earned{background:#fff}
+.stamp-dot.empty{background:rgba(255,255,255,.16);border:2px dashed rgba(255,255,255,.4)}
+.stamp-dot.earned:active{transform:scale(1.1)}
+.stamp-dot.milestone-dot.earned{box-shadow:0 0 0 3px var(--black)}
+.milestone{display:flex;align-items:center;gap:12px;padding:14px 16px;background:var(--surface);border-radius:var(--r);margin-bottom:10px}
+.milestone-num{width:42px;height:42px;border-radius:50%;background:var(--bg);display:flex;align-items:center;justify-content:center;font-family:var(--f-head);font-size:13px;font-weight:800;color:var(--text2);flex-shrink:0}
+.milestone.reached .milestone-num{background:var(--red);color:#fff}
+.milestone-info{flex:1}
+.milestone-title{font-family:var(--f-head);font-size:14px;font-weight:700}
+.milestone-sub{font-size:12px;color:var(--text2);margin-top:2px}
+.milestone.redeemed{opacity:.45}
+
+/* ── MAP (light floor plan, red = selected) ── */
+#map-container{flex:1;position:relative;overflow:hidden;background:var(--bg)}
+#expo-svg{width:100%;height:100%;cursor:pointer;display:block}
+.map-zone{cursor:pointer;transition:transform .15s}
+.map-zone:active{transform:scale(.97)}
+.map-tooltip{position:absolute;bottom:0;left:0;right:0;background:var(--surface);border-radius:var(--r-lg) var(--r-lg) 0 0;padding:22px 22px 34px;box-shadow:0 -4px 24px rgba(0,0,0,.14);transform:translateY(100%);transition:transform .25s ease;z-index:20}
+.map-tooltip.show{transform:translateY(0)}
+
+/* ── AUTH ── */
+.auth-hero{flex:1;display:flex;flex-direction:column;align-items:center;justify-content:center;padding:40px 24px 0;text-align:center}
+.auth-logo{font-family:var(--f-head);font-size:44px;font-weight:800;color:#fff;letter-spacing:-2px;line-height:1}
+.auth-logo span{color:var(--red)}
+.auth-form{background:var(--surface);border-radius:var(--r-lg) var(--r-lg) 0 0;padding:30px 22px 8px;margin-top:32px}
+.form-group{margin-bottom:14px}
+.form-label{font-size:13px;font-weight:700;color:var(--text2);margin-bottom:6px;display:block}
+.form-input{width:100%;height:50px;border-radius:var(--r-sm);border:1.5px solid var(--border);background:var(--bg);padding:0 15px;font-size:15px;font-family:var(--f-body);color:var(--text);outline:none;transition:border-color .15s}
+.form-input:focus{border-color:var(--red)}
+.form-err{font-size:12px;color:var(--red);margin-top:4px;font-weight:600}
+.auth-switch{text-align:center;font-size:14px;color:var(--text2);padding:16px 0 0}
+.auth-switch a{color:var(--red);font-weight:800;cursor:pointer;text-decoration:none}
+.auth-hint{background:var(--bg);border-radius:var(--r-sm);padding:12px 15px;margin-bottom:16px;font-size:12px;color:var(--text2);line-height:1.7}
+
+/* ── HOME HERO ── */
+.home-hero{background:var(--red);border-radius:var(--r-lg);margin:16px 18px 0;padding:22px 20px 24px;position:relative;overflow:hidden}
+.home-greeting{font-size:13px;color:rgba(255,255,255,.75);margin-bottom:4px;font-weight:600}
+.home-name{font-family:var(--f-head);font-size:24px;font-weight:800;color:#fff;letter-spacing:-.5px}
+.qr-pill-btn{display:inline-flex;align-items:center;gap:7px;background:rgba(255,255,255,.25);color:#fff;border:none;border-radius:var(--pill);padding:0 16px;height:40px;font-family:var(--f-body);font-size:13px;font-weight:700;cursor:pointer;flex-shrink:0}
+.stat-big{display:flex;align-items:baseline;gap:8px;margin-top:22px}
+.stat-big-num{font-family:var(--f-head);font-size:52px;font-weight:800;color:#fff;line-height:.9;letter-spacing:-2px}
+.stat-big-label{font-size:13px;color:rgba(255,255,255,.8);line-height:1.3;font-weight:600}
+.now-card{background:rgba(255,255,255,.24);border-radius:var(--r);padding:16px;margin-top:16px}
+.now-label{font-size:10px;font-weight:800;text-transform:uppercase;letter-spacing:1px;color:rgba(255,255,255,.8);margin-bottom:6px;display:flex;align-items:center;gap:6px}
+.now-dot{width:7px;height:7px;border-radius:50%;background:#fff;animation:pulse 1.8s infinite}
+@keyframes pulse{0%,100%{opacity:1}50%{opacity:.35}}
+.now-title{font-family:var(--f-head);font-size:19px;font-weight:700;color:#fff;line-height:1.2}
+.now-meta{font-size:12px;color:rgba(255,255,255,.75);margin-top:4px;font-weight:600}
+.now-cta{margin-top:12px}
+.upnext-card{background:rgba(0,0,0,.2);border-radius:var(--r);padding:14px 16px;margin-top:10px;display:flex;gap:14px;align-items:center;cursor:pointer}
+.upnext-label{font-size:10px;font-weight:800;text-transform:uppercase;letter-spacing:1px;color:rgba(255,255,255,.65);width:56px;flex-shrink:0}
+.upnext-title{font-family:var(--f-head);font-size:15px;font-weight:700;color:#fff;line-height:1.2}
+.upnext-meta{font-size:12px;color:rgba(255,255,255,.65);margin-top:3px;font-weight:600}
+
+/* ── RACE HIGHLIGHT (runner hero, top priority) ── */
+.race-highlight{background:rgba(255,255,255,.96);border-radius:var(--r);padding:14px 14px 14px 16px;margin-top:16px;display:flex;align-items:center;gap:8px}
+.race-highlight-item{flex:1;min-width:0}
+.race-highlight-label{font-size:9.5px;font-weight:800;text-transform:uppercase;letter-spacing:.5px;color:var(--text2);margin-bottom:2px}
+.race-highlight-val{font-family:var(--f-head);font-size:17px;font-weight:800;color:var(--text);white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+.race-highlight-qr{width:42px;height:42px;border-radius:12px;background:var(--black);display:flex;align-items:center;justify-content:center;color:#fff;flex-shrink:0;cursor:pointer}
+.race-secondary-row{display:flex;align-items:center;gap:10px;background:rgba(255,255,255,.16);border-radius:14px;padding:10px 14px;margin-top:10px;cursor:pointer}
+.race-secondary-label{font-size:9.5px;font-weight:800;text-transform:uppercase;letter-spacing:.5px;color:rgba(255,255,255,.7);width:54px;flex-shrink:0}
+.race-secondary-title{font-family:var(--f-head);font-size:13px;font-weight:700;color:#fff;line-height:1.2}
+.race-secondary-meta{font-size:11px;color:rgba(255,255,255,.65);margin-top:2px}
+
+/* ── NOTIFICATIONS ── */
+.notif-item{display:flex;gap:12px;padding:16px;background:var(--surface);border-radius:var(--r);margin-bottom:10px;cursor:pointer}
+.notif-item.unread{background:var(--red-dim)}
+.notif-dot{width:8px;height:8px;border-radius:50%;background:var(--red);margin-top:6px;flex-shrink:0;visibility:hidden}
+.notif-item.unread .notif-dot{visibility:visible}
+.notif-title{font-family:var(--f-head);font-weight:700;font-size:14px}
+.notif-desc{font-size:13px;color:var(--text2);margin-top:3px;line-height:1.5}
+.notif-time{font-size:11px;color:var(--text3);margin-top:6px}
+
+/* ── RACE PASS ── */
+.qr-card{background:var(--surface);border-radius:var(--r);padding:20px;text-align:center;box-shadow:var(--sh)}
+.qr-box{display:flex;align-items:center;justify-content:center;margin-bottom:12px}
+.qr-caption{font-size:12px;color:var(--text2)}
+.stat-pair{display:grid;grid-template-columns:1fr 1fr;gap:10px}
+.stat-box{background:var(--bg);border-radius:var(--r-sm);padding:14px}
+.stat-box-label{font-size:11px;font-weight:700;text-transform:uppercase;letter-spacing:.5px;color:var(--text2);margin-bottom:4px}
+.stat-box-val{font-family:var(--f-head);font-size:20px;font-weight:800;color:var(--text)}
+.pass-row{display:flex;align-items:center;justify-content:space-between;background:var(--bg);border-radius:var(--r-sm);padding:14px;margin-top:10px}
+.pass-row-label{display:flex;align-items:center;gap:8px;font-family:var(--f-head);font-weight:700;font-size:14px}
+.pass-row-val{font-family:var(--f-head);font-weight:800;font-size:15px}
+.check-row{display:flex;align-items:center;gap:10px;padding:9px 0}
+.check-mark{width:20px;height:20px;border-radius:6px;background:var(--red);display:flex;align-items:center;justify-content:center;color:#fff;flex-shrink:0}
+.check-label{font-size:14px;color:var(--text)}
+
+/* ── BENTO QUICK ACCESS ── */
+.bento-grid{display:grid;grid-template-columns:1fr 1fr;grid-auto-rows:96px;gap:12px;padding:18px}
+.bento-tile{border-radius:var(--r);padding:16px;display:flex;flex-direction:column;justify-content:space-between;cursor:pointer;transition:transform .15s;position:relative;overflow:hidden}
+.bento-tile:active{transform:scale(.97)}
+.bento-tile.span2{grid-column:span 2}
+.bento-tile.row2{grid-row:span 2}
+.bento-label{font-family:var(--f-head);font-size:15px;font-weight:700;line-height:1.2}
+.bento-sub{font-size:11px;font-weight:600;opacity:.7;margin-top:2px}
+.bento-dark{background:var(--black);color:#fff}
+.bento-light{background:var(--surface);color:var(--text);box-shadow:var(--sh)}
+.bento-accent{background:var(--red);color:#fff}
+
+/* ── DETAIL SCREENS ── */
+.detail-hero{padding:24px 18px;background:var(--black);color:#fff;border-radius:0 0 var(--r-lg) var(--r-lg)}
+.detail-category{font-size:11px;font-weight:800;text-transform:uppercase;letter-spacing:1px;color:rgba(255,255,255,.55);margin-bottom:8px}
+.detail-title{font-family:var(--f-head);font-size:26px;font-weight:800;line-height:1.15;margin-bottom:10px;letter-spacing:-.5px}
+.detail-meta-row{display:flex;flex-wrap:wrap;gap:8px;margin-top:12px}
+.detail-chip{background:rgba(255,255,255,.14);border-radius:var(--pill);padding:6px 12px;font-size:12px;color:rgba(255,255,255,.85);display:flex;align-items:center;gap:6px;font-weight:600}
+.detail-body{padding:18px}
+.detail-section{margin-bottom:22px}
+.detail-section-title{font-family:var(--f-head);font-size:13px;font-weight:800;text-transform:uppercase;letter-spacing:.6px;color:var(--text2);margin-bottom:10px}
+.detail-desc{font-size:15px;line-height:1.65;color:var(--text)}
+.offer-card{background:var(--red);border-radius:var(--r);padding:16px;color:#fff;margin-bottom:18px}
+.offer-label{font-size:10px;font-weight:800;text-transform:uppercase;letter-spacing:1px;opacity:.8;margin-bottom:5px}
+.offer-text{font-family:var(--f-head);font-size:16px;font-weight:700}
+
+/* ── ADMIN ── */
+.admin-tab-row{display:flex;overflow-x:auto;background:var(--bg);scrollbar-width:none;padding:8px 12px;gap:6px}
+.admin-tab-row::-webkit-scrollbar{display:none}
+.admin-tab{padding:9px 16px;font-size:13px;font-weight:700;color:var(--text2);cursor:pointer;white-space:nowrap;border-radius:var(--pill);transition:all .15s}
+.admin-tab.active{color:#fff;background:var(--black)}
+.admin-section{padding:18px}
+.admin-row{background:var(--surface);border-radius:var(--r);margin-bottom:10px;overflow:hidden}
+.admin-item{display:flex;align-items:center;gap:12px;padding:14px 16px;border-bottom:1px solid var(--border);cursor:pointer}
+.admin-item:last-child{border-bottom:none}
+.admin-item-info{flex:1;min-width:0}
+.admin-item-title{font-family:var(--f-head);font-size:14px;font-weight:700}
+.admin-item-sub{font-size:12px;color:var(--text2);margin-top:2px}
+.admin-actions{display:flex;gap:6px}
+.admin-btn{padding:6px 12px;border-radius:var(--pill);font-size:12px;font-weight:700;cursor:pointer;border:1.5px solid var(--border);background:var(--surface);color:var(--text)}
+.stats-grid{display:grid;grid-template-columns:1fr 1fr;gap:10px;margin-bottom:16px}
+.stat-card{background:var(--surface);border-radius:var(--r);padding:16px;box-shadow:var(--sh)}
+.stat-val{font-family:var(--f-head);font-size:24px;font-weight:800}
+.stat-label{font-size:12px;color:var(--text2);margin-top:3px;font-weight:600}
+.stat-accent{border-top:4px solid var(--red)}
+.stat-neutral{border-top:4px solid var(--black)}
+
+/* ── MODAL ── */
+.modal-overlay{position:fixed;inset:0;background:rgba(0,0,0,.5);z-index:100;display:flex;align-items:flex-end;opacity:0;pointer-events:none;transition:opacity .2s}
+.modal-overlay.show{opacity:1;pointer-events:all}
+.modal{background:var(--surface);border-radius:var(--r-lg) var(--r-lg) 0 0;padding:26px 22px 36px;width:100%;transform:translateY(100%);transition:transform .25s ease;max-height:85vh;overflow-y:auto}
+.modal.show{transform:translateY(0)}
+.modal-title{font-family:var(--f-head);font-size:19px;font-weight:800;margin-bottom:18px}
+.modal-close{position:absolute;right:22px;top:26px;width:32px;height:32px;border-radius:50%;background:var(--bg);display:flex;align-items:center;justify-content:center;cursor:pointer;color:var(--text2)}
+
+/* ── STAMP TOAST ── */
+.stamp-toast{position:fixed;top:-80px;left:50%;transform:translateX(-50%);background:var(--black);color:#fff;padding:13px 22px;border-radius:var(--pill);font-size:14px;font-weight:700;z-index:200;transition:top .35s ease;white-space:nowrap;box-shadow:var(--sh-md);display:flex;align-items:center;gap:8px}
+.stamp-toast.show{top:16px}
+
+/* ── BANNER CAROUSEL ── */
+.carousel-wrap{position:relative;overflow:hidden;border-radius:var(--r);margin:0 18px 16px;box-shadow:var(--sh-md)}
+.carousel-track{display:flex;transition:transform .45s cubic-bezier(.4,0,.2,1);will-change:transform;touch-action:pan-y}
+.carousel-slide{flex-shrink:0;width:100%;aspect-ratio:16/9;position:relative;display:flex;flex-direction:column;justify-content:flex-end;padding:20px 22px;overflow:hidden;cursor:pointer}
+.carousel-brand{font-size:11px;font-weight:800;text-transform:uppercase;letter-spacing:1.2px;color:rgba(255,255,255,.75);margin-bottom:4px}
+.carousel-title{font-family:var(--f-head);font-size:18px;font-weight:700;color:#fff;line-height:1.25;max-width:82%}
+.carousel-cta{display:inline-flex;align-items:center;gap:5px;margin-top:10px;font-size:12px;font-weight:800;color:var(--black);background:#fff;border-radius:var(--pill);padding:5px 14px}
+.carousel-dots{display:flex;gap:5px;justify-content:center;padding:8px 0 4px}
+.carousel-dot{width:5px;height:5px;border-radius:50%;background:var(--border);transition:all .25s}
+.carousel-dot.active{background:var(--red);width:16px;border-radius:3px}
+
+/* ── PROFILE ── */
+.profile-hero{background:var(--black);padding:36px 20px 26px;text-align:center;color:#fff;border-radius:0 0 var(--r-lg) var(--r-lg)}
+.profile-avatar{width:76px;height:76px;border-radius:50%;background:var(--red);display:flex;align-items:center;justify-content:center;font-family:var(--f-head);font-size:28px;font-weight:800;color:#fff;margin:0 auto 14px}
+.profile-name{font-family:var(--f-head);font-size:21px;font-weight:800}
+.profile-email{font-size:13px;opacity:.55;margin-top:4px}
+.profile-badge-row{margin-top:14px;display:flex;justify-content:center}
+
+/* ── CALENDAR DAY PICKER ── */
+.day-picker{display:flex;gap:8px}
+.day-pill{flex:1;text-align:center;padding:10px 4px;border-radius:16px;cursor:pointer;transition:all .15s}
+.day-pill-dow{font-size:10px;font-weight:700;text-transform:uppercase;letter-spacing:.4px;opacity:.6;margin-bottom:4px}
+.day-pill-num{font-family:var(--f-head);font-size:17px;font-weight:800}
+</style>
+</head>
+<body>
+<div id="app">
+  <div id="screen-login" class="screen"></div>
+  <div id="screen-register" class="screen"></div>
+  <div id="screen-home" class="screen"></div>
+  <div id="screen-race" class="screen"></div>
+  <div id="screen-schedule" class="screen"></div>
+  <div id="screen-activity" class="screen"></div>
+  <div id="screen-brands" class="screen"></div>
+  <div id="screen-brand" class="screen"></div>
+  <div id="screen-map" class="screen"></div>
+  <div id="screen-stamps" class="screen"></div>
+  <div id="screen-profile" class="screen"></div>
+  <div id="screen-admin" class="screen"></div>
+  <div id="screen-promotions" class="screen"></div>
+  <div id="screen-notifications" class="screen"></div>
+  <div id="nav-wrap" style="display:none"><div id="nav"></div></div>
+  <div class="stamp-toast" id="stamp-toast">Stamp collected</div>
+  <div class="modal-overlay" id="modal-overlay"><div class="modal" id="modal"></div></div>
+</div>
+
+<script>
+// ══════════════════════════════════════════════════════
+// ICONS — minimal line icons, no emoji
+// ══════════════════════════════════════════════════════
+const ICONS = {
+  home: '<path d="M4 11.5 12 4l8 7.5"/><path d="M6.5 10v9a1 1 0 0 0 1 1h3v-5.5h3V20h3a1 1 0 0 0 1-1v-9"/>',
+  calendar: '<rect x="3.5" y="5" width="17" height="15" rx="3"/><path d="M3.5 9.5h17M8 3v3M16 3v3"/>',
+  tag: '<path d="M12.7 3.4 20 10.7a2 2 0 0 1 0 2.8l-6.5 6.5a2 2 0 0 1-2.8 0L3.4 12.7a2 2 0 0 1-.6-1.4V5A1.6 1.6 0 0 1 4.4 3.4h6.9a2 2 0 0 1 1.4.6Z"/><circle cx="8" cy="8" r="1.2"/>',
+  compass: '<circle cx="12" cy="12" r="8.5"/><path d="M14.8 9.2 13 13l-3.8 1.8L11 11l3.8-1.8Z"/>',
+  award: '<circle cx="12" cy="9" r="5.3"/><path d="M8.2 13.7 7 21l5-2.6 5 2.6-1.2-7.3"/>',
+  user: '<circle cx="12" cy="8" r="3.4"/><path d="M4.7 20c1.3-3.6 4.2-5.4 7.3-5.4S18 16.4 19.3 20"/>',
+  chevronRight: '<path d="M9 5l7 7-7 7"/>',
+  chevronLeft: '<path d="M15 5l-7 7 7 7"/>',
+  check: '<path d="M5 12.5 9.5 17 19 7"/>',
+  lock: '<rect x="5" y="10.5" width="14" height="9" rx="2"/><path d="M8 10.5V8a4 4 0 0 1 8 0v2.5"/>',
+  search: '<circle cx="10.3" cy="10.3" r="6.3"/><path d="M20 20l-5-5"/>',
+  pin: '<path d="M12 21s6.5-6.2 6.5-10.8A6.5 6.5 0 0 0 5.5 10.2C5.5 14.8 12 21 12 21Z"/><circle cx="12" cy="10" r="2.1"/>',
+  clock: '<circle cx="12" cy="12" r="8"/><path d="M12 8v4l3 2"/>',
+  close: '<path d="M6 6l12 12M18 6 6 18"/>',
+  percent: '<path d="M6 18 18 6"/><circle cx="7.5" cy="7.5" r="1.7"/><circle cx="16.5" cy="16.5" r="1.7"/>',
+  qr: '<rect x="3" y="3" width="7" height="7"/><rect x="14" y="3" width="7" height="7"/><rect x="3" y="14" width="7" height="7"/><rect x="14" y="14" width="3" height="3"/><rect x="18" y="14" width="3" height="3"/><rect x="14" y="18" width="3" height="3"/><rect x="18" y="18" width="3" height="3"/>',
+  bell: '<path d="M6 8.5a6 6 0 0 1 12 0c0 4 1.5 5.5 1.5 5.5H4.5S6 12.5 6 8.5Z"/><path d="M9.5 17a2.5 2.5 0 0 0 5 0"/>',
+  flag: '<path d="M6 21V4"/><path d="M6 5h11l-2.2 3.5L17 12H6"/>',
+};
+function icon(name, size) {
+  size = size || 20;
+  const body = ICONS[name] || '';
+  return '<span class="icon" style="width:'+size+'px;height:'+size+'px"><svg viewBox="0 0 24 24" width="'+size+'" height="'+size+'" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round">'+body+'</svg></span>';
+}
+function initialsOf(name) {
+  return (name||'').split(' ').map(n=>n[0]).join('').slice(0,2).toUpperCase();
+}
+
+const LOGO_SRC = "data:image/png;base64,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";
+
+// ══════════════════════════════════════════════════════
+// DATA
+// ══════════════════════════════════════════════════════
+const RUNNER_EMAILS = [
+  'runner@jrf.com','budi.santoso@gmail.com','sari.lari@gmail.com',
+  'ahmad.sprint@yahoo.com','dewi.run@gmail.com','yesy.marchita@shopee.com',
+  'marathon.king@gmail.com','fastfeet@gmail.com','runnerID@gmail.com',
+  'trailblazer@outlook.com','eliterunner@gmail.com','pacesetter@gmail.com',
+  'demo.runner@jrf.com','tester.runner@gmail.com'
+];
+
+const ADMIN_EMAILS = ['admin@jrf.com','yesy.marchita@shopee.com'];
+
+const DEFAULT_ACTIVITIES = [
+  {id:'a1',date:'22',name:'Opening Ceremony',time:'10:00',location:'Main Stage',zone:'main-stage',desc:'Grand opening of JRF 2026 with live performances and surprise guests. All runners and visitors are welcome.',category:'Event'},
+  {id:'a2',date:'22',name:'Speed Bid',time:'13:00',location:'Main Expo',zone:'main-expo',desc:'Lightning-round auction on exclusive running gear. Be quick — items go in 60 seconds or less.',category:'Shopping'},
+  {id:'a3',date:'22',name:'Sprint Sale',time:'15:00',location:'All Expo Zones',zone:'main-expo',desc:'Flash sale across all participating brands. Discounts up to 50% for a limited time only.',category:'Shopping'},
+  {id:'a4',date:'22',name:'Community Stage: Run Story',time:'17:30',location:'Community Lounge',zone:'community-lounge',desc:'Share your running journey. Open mic session for all runners and enthusiasts.',category:'Community'},
+  {id:'a5',date:'22',name:'Lucky Night Hour',time:'20:00',location:'Main Stage',zone:'main-stage',desc:'Random lucky draws every 15 minutes. Must be present to win.',category:'Event'},
+  {id:'a6',date:'23',name:'Runners\' Breakfast Gathering',time:'07:30',location:'Community Lounge',zone:'community-lounge',desc:'Pre-race day gathering for all registered runners. Light refreshments provided.',category:'Community'},
+  {id:'a7',date:'23',name:'Speed Bid Round 2',time:'11:00',location:'Main Expo',zone:'main-expo',desc:'Second round of the popular Speed Bid. Exclusive items from top running brands.',category:'Shopping'},
+  {id:'a8',date:'23',name:'Community Stage: Training Tips',time:'14:00',location:'Community Lounge',zone:'community-lounge',desc:'Expert panel sharing training advice for beginners and advanced runners.',category:'Community'},
+  {id:'a9',date:'23',name:'Top Spender Awards',time:'18:00',location:'Main Stage',zone:'main-stage',desc:'Recognition for top spenders across all expo brands.',category:'Event'},
+  {id:'a10',date:'23',name:'Night Special Drop',time:'21:00',location:'Main Expo',zone:'main-expo',desc:'Exclusive limited-edition product drops from premium brands. First come, first served.',category:'Shopping'},
+  {id:'a11',date:'24',name:'Race Day Sendoff',time:'04:30',location:'Information Center',zone:'info-center',desc:'Cheer off the runners at the starting line. Shuttle buses depart from expo.',category:'Event'},
+  {id:'a12',date:'24',name:'Post-Race Recovery Zone',time:'12:00',location:'Lokalhood',zone:'lokalhood',desc:'Free massage, stretching, and recovery sessions for finishers.',category:'Wellness'},
+  {id:'a13',date:'24',name:'Finisher Medal Showcase',time:'14:00',location:'Main Stage',zone:'main-stage',desc:'Display and ceremony for race finishers. Photo opportunities available.',category:'Event'},
+  {id:'a14',date:'24',name:'Sprint Sale Day 2',time:'16:00',location:'All Expo Zones',zone:'main-expo',desc:'Second round of flash sales. Even bigger discounts to celebrate race day.',category:'Shopping'},
+  {id:'a15',date:'24',name:'Lucky Night Hour',time:'20:00',location:'Main Stage',zone:'main-stage',desc:'Biggest prize pool of the event. Draw happens live on stage.',category:'Event'},
+  {id:'a16',date:'25',name:'Lokalhood Market Open',time:'09:00',location:'Lokalhood',zone:'lokalhood',desc:'Local artisan and lifestyle brands showcase. Support local runners and makers.',category:'Lifestyle'},
+  {id:'a17',date:'25',name:'Community Stage: Final Day',time:'11:00',location:'Community Lounge',zone:'community-lounge',desc:'Final day talks and community shoutouts.',category:'Community'},
+  {id:'a18',date:'25',name:'Grand Top Spender Reveal',time:'15:00',location:'Main Stage',zone:'main-stage',desc:'Announcement of the overall top spenders with grand prizes.',category:'Event'},
+  {id:'a19',date:'25',name:'Night Special Drop — Last Call',time:'18:00',location:'Main Expo',zone:'main-expo',desc:'Final product drop of the expo. Last chance to grab exclusive gear.',category:'Shopping'},
+  {id:'a20',date:'25',name:'Closing Ceremony',time:'20:00',location:'Main Stage',zone:'main-stage',desc:'Grand closing celebration of JRF 2026. Live music and special performances.',category:'Event'},
+];
+
+const DEFAULT_BRANDS = [
+  {id:'b1',name:'New Balance',category:'Running',zone:'Main Expo — Block A',zoneId:'main-expo',desc:'Official footwear partner of JRF 2026. Discover the latest performance running shoes and lifestyle sneakers.',offer:'20% off race day collection'},
+  {id:'b2',name:'HOKA',category:'Running',zone:'Main Expo — Block A',zoneId:'main-expo',desc:'Maximum cushioning, minimum weight. Try the full HOKA trail and road running collection.',offer:'Free insole fitting with any purchase'},
+  {id:'b3',name:'Garmin',category:'Sports',zone:'Main Expo — Block B',zoneId:'main-expo',desc:'GPS smartwatches and fitness trackers for serious runners. Live demo stations available.',offer:'Free data sync setup for JRF participants'},
+  {id:'b4',name:'Brooks Running',category:'Running',zone:'Main Expo — Block A',zoneId:'main-expo',desc:'Run Happy. Brooks gait analysis and expert fitting service available all expo days.',offer:'Complimentary gait analysis'},
+  {id:'b5',name:'Salomon',category:'Running',zone:'Main Expo — Block B',zoneId:'main-expo',desc:'Trail running specialists. Explore their full collection of trail shoes, packs, and apparel.',offer:'15% off trail shoe range'},
+  {id:'b6',name:'Adidas Running',category:'Sports',zone:'Main Expo — Block C',zoneId:'main-expo',desc:'From race day to recovery. Explore Adidas Adizero and Ultraboost lineups.',offer:'Bundle deal: shoes + apparel'},
+  {id:'b7',name:'Lululemon',category:'Wellness',zone:'Main Expo — Block C',zoneId:'main-expo',desc:'Technical apparel for run, train, and recover. Try before you buy.',offer:'Complimentary hem on any pants'},
+  {id:'b8',name:'GU Energy',category:'Food & Beverage',zone:'Food Section',zoneId:'food-section',desc:'Race nutrition for performance. Gels, chews, hydration tabs — sample the full range.',offer:'Free sample pack with registration'},
+  {id:'b9',name:'Compressport',category:'Running',zone:'Main Expo — Block B',zoneId:'main-expo',desc:'Compression wear for performance and recovery. Trusted by elite athletes worldwide.',offer:'Buy 2 get 1 free on compression socks'},
+  {id:'b10',name:'Decathlon',category:'Sports',zone:'Main Expo — Block D',zoneId:'main-expo',desc:'Quality sport gear for every level. Running, cycling, fitness, swimming and more.',offer:'Exclusive expo-only bundle pricing'},
+  {id:'b11',name:'Lokalhood Collective',category:'Lifestyle',zone:'Lokalhood',zoneId:'lokalhood',desc:'Curated local brands celebrating Indonesian running culture.',offer:'10% off for runners with race bib'},
+  {id:'b12',name:'Recovery Lab',category:'Wellness',zone:'Community Lounge',zoneId:'community-lounge',desc:'Sports recovery solutions: ice baths, compression therapy, and massage tools.',offer:'Free 10-min muscle recovery session'},
+  {id:'b13',name:'Janji',category:'Running',zone:'Main Expo — Block A',zoneId:'main-expo',desc:'Performance running apparel inspired by travel and global running culture.',offer:'Limited edition JRF collab tee available'},
+  {id:'b14',name:'Warung Lari',category:'Food & Beverage',zone:'Food Section',zoneId:'food-section',desc:'Local runner-inspired food stalls. Carb up before the race or refuel after.',offer:"Runner's meal deal with race bib"},
+  {id:'b15',name:'BCA Smart POS',category:'Lifestyle',zone:'Information Center',zoneId:'info-center',desc:'Official payment partner. Tap & pay at all expo vendors.',offer:'5% cashback on all transactions'},
+];
+
+const SPONSOR_BANNERS = [
+  {id:'s1',brand:'New Balance',tagline:'Official Footwear Partner of JRF 2026',cta:'Shop the collection',bg:['#8A0000','#3A0000'],brandId:'b1'},
+  {id:'s2',brand:'BCA Smart POS',tagline:'Tap & Pay at Every Booth — 5% Cashback',cta:'Learn more',bg:['#2A2A2A','#0A0A0A'],brandId:'b15'},
+  {id:'s3',brand:'Garmin',tagline:'Track Every Step. Own Every Race.',cta:'Explore watches',bg:['#8A0000','#3A0000'],brandId:'b3'},
+  {id:'s4',brand:'GU Energy',tagline:'Fuel Your Race. Free Sample at Our Booth.',cta:'Find the booth',bg:['#2A2A2A','#0A0A0A'],brandId:'b8'},
+  {id:'s5',brand:'HOKA',tagline:'Maximum Cushion. Minimum Effort.',cta:'Try a pair',bg:['#8A0000','#3A0000'],brandId:'b2'},
+];
+
+const PROMO_SLOTS = [
+  {id:'p1',brand:'HOKA',title:'Race day special',desc:'30% off all running shoes — today only',bg:['#2A2A2A','#0A0A0A'],brandId:'b2'},
+  {id:'p2',brand:'Lululemon',title:'Expo exclusive',desc:'Free hem service on any pair of pants',bg:['#8A0000','#3A0000'],brandId:'b7'},
+  {id:'p3',brand:'Salomon',title:'Trail pack deal',desc:'Buy shoes + pack, save 15% at our booth',bg:['#2A2A2A','#0A0A0A'],brandId:'b5'},
+  {id:'p4',brand:'BCA',title:'5% cashback',desc:'On all transactions across all booths',bg:['#8A0000','#3A0000'],brandId:'b15'},
+  {id:'p5',brand:'Recovery Lab',title:'Free session',desc:'10-min muscle recovery — no purchase needed',bg:['#2A2A2A','#0A0A0A'],brandId:'b12'},
+];
+
+const DEFAULT_STAMP_REWARDS = [
+  {stamps:3,reward:'JRF 2026 Finisher Sticker Pack'},
+  {stamps:6,reward:'JRF Exclusive Tote Bag + Water Bottle'},
+  {stamps:9,reward:'Free Race Entry — Next JRF Event'},
+  {stamps:12,reward:'Grand Reward: JRF Limited Edition Running Kit'},
+];
+
+const DEFAULT_NOTIFICATIONS = [
+  {id:'n1',title:'Race day is almost here',body:'Your wave (Wave 8) starts at 05:00 on Oct 24. Arrive at least 60 minutes early.',time:'2h ago',read:false,forRunner:true},
+  {id:'n2',title:'New stamp reward unlocked',body:'You have collected enough stamps — redeem your reward at the Stamp Redemption counter.',time:'5h ago',read:false},
+  {id:'n3',title:'Speed Bid starting soon',body:'Speed Bid Round 2 begins at 11:00 in Main Expo.',time:'1d ago',read:true},
+  {id:'n4',title:'New deal from HOKA',body:'30% off all running shoes — today only.',time:'2d ago',read:true},
+];
+
+const MAP_ZONES = [
+  {id:'main-stage',label:'Main Stage',x:120,y:40,w:200,h:80},
+  {id:'info-center',label:'Info Center',x:20,y:40,w:90,h:80},
+  {id:'main-expo',label:'Main Expo Hall',x:20,y:140,w:300,h:140},
+  {id:'community-lounge',label:'Community Lounge',x:330,y:140,w:100,h:140},
+  {id:'lokalhood',label:'Lokalhood',x:20,y:300,w:130,h:90},
+  {id:'food-section',label:'Food Section',x:165,y:300,w:130,h:90},
+  {id:'stamp-redemption',label:'Stamp Redemption',x:308,y:300,w:122,h:90},
+];
+
+const DEMO_TRANSACTIONS = [
+  {id:'t1',userId:'u2',userEmail:'budi.santoso@gmail.com',isRunner:true,brand:'New Balance',brandId:'b1',amount:850000,time:'2026-10-22T13:45:00',zone:'Main Expo'},
+  {id:'t2',userId:'u3',userEmail:'dewi.run@gmail.com',isRunner:true,brand:'HOKA',brandId:'b2',amount:1250000,time:'2026-10-22T14:20:00',zone:'Main Expo'},
+  {id:'t3',userId:'u4',userEmail:'visitor@gmail.com',isRunner:false,brand:'Lululemon',brandId:'b7',amount:750000,time:'2026-10-22T15:10:00',zone:'Main Expo'},
+  {id:'t4',userId:'u5',userEmail:'lifestyle@gmail.com',isRunner:false,brand:'GU Energy',brandId:'b8',amount:125000,time:'2026-10-22T16:00:00',zone:'Food Section'},
+  {id:'t5',userId:'u2',userEmail:'budi.santoso@gmail.com',isRunner:true,brand:'Garmin',brandId:'b3',amount:3500000,time:'2026-10-23T10:30:00',zone:'Main Expo'},
+  {id:'t6',userId:'u6',userEmail:'shopfan@gmail.com',isRunner:false,brand:'Decathlon',brandId:'b10',amount:450000,time:'2026-10-23T11:45:00',zone:'Main Expo'},
+  {id:'t7',userId:'u3',userEmail:'dewi.run@gmail.com',isRunner:true,brand:'Compressport',brandId:'b9',amount:320000,time:'2026-10-23T13:00:00',zone:'Main Expo'},
+  {id:'t8',userId:'u7',userEmail:'foodie@gmail.com',isRunner:false,brand:'Warung Lari',brandId:'b14',amount:85000,time:'2026-10-23T12:30:00',zone:'Food Section'},
+];
+
+const RACE_CHECKLIST = [
+  'Collect race pack (BIB, jersey, timing chip)',
+  'Check your wave & start time',
+  'Plan your route to the start line',
+  'Charge your phone for QR check-in',
+  'Prepare race-day outfit & shoes',
+];
+
+const DEMO_LEADERBOARD = [
+  {name:'Ahmad Sprint',category:'Male 18–29 · 10K',time:'00:34:12'},
+  {name:'Dewi Larasari',category:'Female 18–29 · 10K',time:'00:36:48'},
+  {name:'Budi Santoso',category:'Male 30–39 · 10K',time:'00:37:05'},
+  {name:'Sari Wulandari',category:'Female 30–39 · 10K',time:'00:39:21'},
+  {name:'Eko Prasetyo',category:'Male 40–49 · 10K',time:'00:40:15'},
+];
+
+// ══════════════════════════════════════════════════════
+// STATE
+// ══════════════════════════════════════════════════════
+const S = {
+  user: null,
+  selectedDay: '22',
+  brandFilter: 'all',
+  brandSearch: '',
+  adminTab: 'overview',
+  activities: [],
+  brands: [],
+  stampRewards: [],
+  transactions: [],
+  users: [],
+  notifications: [],
+
+  init() {
+    const raw = localStorage.getItem('jrf_state');
+    if (raw) {
+      try {
+        const saved = JSON.parse(raw);
+        this.user = saved.user || null;
+        this.activities = saved.activities || DEFAULT_ACTIVITIES;
+        this.brands = saved.brands || DEFAULT_BRANDS;
+        this.stampRewards = saved.stampRewards || DEFAULT_STAMP_REWARDS;
+        this.transactions = saved.transactions || DEMO_TRANSACTIONS;
+        this.users = saved.users || [];
+        this.notifications = saved.notifications || DEFAULT_NOTIFICATIONS.map(n=>({...n}));
+      } catch(e) { this.reset(); }
+    } else {
+      this.activities = [...DEFAULT_ACTIVITIES];
+      this.brands = [...DEFAULT_BRANDS];
+      this.stampRewards = [...DEFAULT_STAMP_REWARDS];
+      this.transactions = [...DEMO_TRANSACTIONS];
+      this.users = [];
+      this.notifications = DEFAULT_NOTIFICATIONS.map(n=>({...n}));
+    }
+  },
+
+  save() {
+    localStorage.setItem('jrf_state', JSON.stringify({
+      user: this.user,
+      activities: this.activities,
+      brands: this.brands,
+      stampRewards: this.stampRewards,
+      transactions: this.transactions,
+      users: this.users,
+      notifications: this.notifications,
+    }));
+  },
+
+  reset() {
+    this.activities = [...DEFAULT_ACTIVITIES];
+    this.brands = [...DEFAULT_BRANDS];
+    this.stampRewards = [...DEFAULT_STAMP_REWARDS];
+    this.transactions = [...DEMO_TRANSACTIONS];
+    this.users = [];
+    this.notifications = DEFAULT_NOTIFICATIONS.map(n=>({...n}));
+  },
+
+  getUnreadCount() { return (this.notifications||[]).filter(n=>!n.read).length; },
+  markNotifRead(id) { const n=(this.notifications||[]).find(x=>x.id===id); if (n && !n.read) { n.read=true; this.save(); } },
+
+  isRunner(email) { return RUNNER_EMAILS.includes(email.toLowerCase()); },
+  isAdmin(email) { return ADMIN_EMAILS.includes(email.toLowerCase()); },
+  getUserStamps() { return this.user ? (this.user.stamps || 0) : 0; },
+
+  addStamp() {
+    if (!this.user) return;
+    this.user.stamps = (this.user.stamps || 0) + 1;
+    this.save();
+    showStampToast();
+  },
+
+  login(email, password, name) {
+    const isRunner = this.isRunner(email);
+    const isAdmin = this.isAdmin(email);
+    const existing = this.users.find(u => u.email === email.toLowerCase());
+    if (existing) {
+      this.user = existing;
+    } else {
+      const newUser = {
+        id: 'u' + Date.now(),
+        name: name || email.split('@')[0].replace(/[._]/g,' ').replace(/\b\w/g, c=>c.toUpperCase()),
+        email: email.toLowerCase(),
+        isRunner,
+        isAdmin,
+        bib: isRunner ? String(1000 + Math.floor(Math.random()*8999)) : null,
+        wave: isRunner ? 'Wave ' + (1 + Math.floor(Math.random()*8)) : null,
+        stamps: isRunner ? 2 : 0,
+        redeemedMilestones: [],
+        joinedAt: new Date().toISOString()
+      };
+      this.users.push(newUser);
+      this.user = newUser;
+    }
+    this.save();
+  },
+
+  logout() {
+    this.user = null;
+    this.save();
+    navHistory = [];
+    navigate('login');
+  }
+};
+
+// ══════════════════════════════════════════════════════
+// ROUTER
+// ══════════════════════════════════════════════════════
+let currentRoute = 'login';
+let currentRouteParams = {};
+let navHistory = []; // [{route, params}]
+
+function navigate(route, options = {}) {
+  const isExplicit = options.params !== undefined || options._isBack;
+  const routeParams = isExplicit ? (options.params || {}) : options;
+  const prev = currentRoute;
+  if (!options._isBack && !['login','register'].includes(prev)) {
+    navHistory.push({route: prev, params: currentRouteParams});
+    if (navHistory.length > 20) navHistory.shift();
+  }
+  currentRoute = route;
+  currentRouteParams = routeParams;
+
+  const screens = document.querySelectorAll('.screen');
+  screens.forEach(s => {
+    s.classList.remove('active','back');
+    if (s.id === 'screen-' + prev && options._isBack) s.classList.add('back');
+  });
+  if (prev === 'home' && route !== 'home') clearInterval(_carouselTimer);
+
+  const next = document.getElementById('screen-' + route);
+  if (next) {
+    next.innerHTML = renderScreen(route, routeParams);
+    requestAnimationFrame(() => {
+      next.classList.add('active');
+      if (route === 'home') setTimeout(initCarousel, 80);
+    });
+  }
+  const navWrap = document.getElementById('nav-wrap');
+  const mainRoutes = ['home','race','schedule','brands','map','stamps'];
+  if (mainRoutes.includes(route) && S.user) {
+    navWrap.style.display = 'block';
+    renderNav(route);
+  } else {
+    navWrap.style.display = 'none';
+  }
+}
+
+function goBack() {
+  if (navHistory.length === 0) { navigate('home'); return; }
+  const prev = navHistory.pop();
+  navigate(prev.route, {params: prev.params, _isBack: true});
+}
+function canGoBack() { return navHistory.length > 0; }
+
+function backBtn(fallback) {
+  const oc  = canGoBack() ? 'goBack()' : (fallback ? "navigate('" + fallback + "')" : '');
+  const vis = (canGoBack() || fallback) ? 'visible' : 'hidden';
+  return '<div class="hdr-back" onclick="' + oc + '" style="visibility:' + vis + '">' + icon('chevronLeft',20) + '</div>';
+}
+
+function renderNav(active) {
+  const items = [
+    {id:'home', ic:'home', label:'Home'},
+  ];
+  if (S.user && S.user.isRunner) items.push({id:'race', ic:'flag', label:'Race'});
+  items.push(
+    {id:'schedule', ic:'calendar', label:'Schedule'},
+    {id:'brands', ic:'tag', label:'Brands'},
+    {id:'map', ic:'compass', label:'Map'},
+    {id:'stamps', ic:'award', label:'Stamps'},
+  );
+  document.getElementById('nav').innerHTML = items.map(it => `
+    <div class="nav-item ${active===it.id?'active':''}" onclick="navigate('${it.id}')">
+      <div class="nav-icon-wrap">${icon(it.ic,22)}</div>
+    </div>
+  `).join('');
+}
+
+// ══════════════════════════════════════════════════════
+// SCREEN RENDERERS
+// ══════════════════════════════════════════════════════
+function renderScreen(route, params) {
+  switch(route) {
+    case 'login': return renderLogin();
+    case 'register': return renderRegister();
+    case 'home': return renderHome();
+    case 'race': return renderRace();
+    case 'schedule': return renderSchedule();
+    case 'activity': return renderActivity(params);
+    case 'brands': return renderBrands();
+    case 'brand': return renderBrand(params);
+    case 'map': return renderMap(params);
+    case 'stamps': return renderStamps();
+    case 'profile': return renderProfile();
+    case 'admin': return renderAdmin();
+    case 'promotions': return renderPromotions();
+    case 'notifications': return renderNotifications();
+    default: return renderHome();
+  }
+}
+
+// ── LOGIN ──
+function renderLogin() {
+  return `
+  <div style="height:100%;position:relative;overflow:hidden;background:var(--red)">
+    <div style="position:absolute;inset:0;background-image:url('data:image/svg+xml;base64,PHN2ZyB4bWxucz0naHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmcnPjxmaWx0ZXIgaWQ9J24nPjxmZVR1cmJ1bGVuY2UgdHlwZT0nZnJhY3RhbE5vaXNlJyBiYXNlRnJlcXVlbmN5PScwLjg1JyBudW1PY3RhdmVzPSczJyBzdGl0Y2hUaWxlcz0nc3RpdGNoJy8+PC9maWx0ZXI+PHJlY3Qgd2lkdGg9JzEwMCUnIGhlaWdodD0nMTAwJScgZmlsdGVyPSd1cmwoI24pJy8+PC9zdmc+');opacity:.4;mix-blend-mode:overlay;pointer-events:none"></div>
+    <div style="position:absolute;inset:0;background:
+      radial-gradient(circle at 28% 18%, rgba(0,0,0,.16), transparent 42%),
+      radial-gradient(circle at 88% 8%, rgba(0,0,0,.12), transparent 38%),
+      radial-gradient(circle at 55% 40%, rgba(0,0,0,.14), transparent 46%);
+      pointer-events:none"></div>
+    <div style="position:relative;z-index:1;height:100%;display:flex;flex-direction:column;align-items:center">
+      <div style="flex:23.7 0 0"></div>
+      <img src="${LOGO_SRC}" alt="Jakarta Running Fest 2026" style="width:50%;max-width:230px;height:auto;filter:brightness(0) invert(1)">
+      <div style="flex:6.7 0 0"></div>
+      <div style="width:79.6%;background:rgba(255,255,255,.29);border-radius:32px;padding:26px 22px 22px;box-shadow:0 20px 50px rgba(0,0,0,.15)">
+        <div class="form-group">
+          <label class="form-label" style="color:#fff">Email</label>
+          <input class="form-input" id="login-email" type="email" placeholder="your@email.com" autocomplete="email" style="background:#fff;border:none;border-radius:var(--pill);font-weight:700;color:var(--text)">
+        </div>
+        <div class="form-group">
+          <label class="form-label" style="color:#fff">Password</label>
+          <input class="form-input" id="login-pwd" type="password" placeholder="••••••••" style="background:#fff;border:none;border-radius:var(--pill);font-weight:700;color:var(--text)">
+          <div class="form-err" id="login-err"></div>
+        </div>
+        <button class="btn btn-primary btn-full" onclick="doLogin()" style="margin-top:6px">Sign in</button>
+        <div class="auth-switch" style="color:rgba(255,255,255,.85)">Don't have an account? <a onclick="navigate('register')" style="color:#E8FF3D;font-weight:800;text-decoration:underline">Register</a></div>
+      </div>
+      <div style="flex:0 0 auto;padding:14px 24px 0;text-align:center;font-size:11.5px;line-height:1.8;color:rgba(255,255,255,.75)">
+        Demo — tap an email to copy<br>
+        <span onclick="copyDemoEmail('runner@jrf.com',this)" style="color:#fff;font-weight:700;text-decoration:underline;cursor:pointer">runner@jrf.com</span> (Runner)<br>
+        <span onclick="copyDemoEmail('visitor@gmail.com',this)" style="color:#fff;font-weight:700;text-decoration:underline;cursor:pointer">visitor@gmail.com</span> (Non Runner)<br>
+        any password
+      </div>
+      <div style="flex:23.5 0 0"></div>
+    </div>
+  </div>`;
+}
+
+// ── REGISTER ──
+function renderRegister() {
+  return `
+  <div style="height:100%;display:flex;flex-direction:column;background:var(--black)">
+    <div class="auth-hero" style="padding-top:26px">
+      <img src="${LOGO_SRC}" alt="Jakarta Running Fest 2026" style="height:34px;width:auto;filter:brightness(0) invert(1)">
+      <div style="font-size:13px;color:rgba(255,255,255,.5);margin-top:6px">Create your expo account</div>
+    </div>
+    <div class="auth-form" style="margin-top:16px">
+      <div class="form-group">
+        <label class="form-label">Full name</label>
+        <input class="form-input" id="reg-name" type="text" placeholder="Your name" autocomplete="name">
+      </div>
+      <div class="form-group">
+        <label class="form-label">Email</label>
+        <input class="form-input" id="reg-email" type="email" placeholder="your@email.com" autocomplete="email">
+      </div>
+      <div class="form-group">
+        <label class="form-label">Password</label>
+        <input class="form-input" id="reg-pwd" type="password" placeholder="Min. 6 characters">
+        <div class="form-err" id="reg-err"></div>
+      </div>
+      <div class="auth-hint">Your runner / visitor status is detected automatically from your email.</div>
+      <button class="btn btn-accent btn-full" onclick="doRegister()">Create account</button>
+      <div class="auth-switch">Already have an account? <a onclick="navigate('login')">Sign in</a></div>
+    </div>
+  </div>`;
+}
+
+// ── HOME ──
+function renderHome() {
+  const u = S.user;
+  const now = getCurrentActivity();
+  const next = getNextActivity();
+  const stamps = S.getUserStamps();
+  const isRunner = u.isRunner;
+  return `
+  <div class="hdr">
+    <div class="hdr-logo" style="display:flex;align-items:center"><img src="${LOGO_SRC}" alt="Jakarta Running Fest 2026" style="height:22px;width:auto"></div>
+    <span class="badge ${isRunner?'badge-runner':'badge-nonrunner'}" style="font-size:11px;padding:5px 12px;margin-right:10px">${isRunner?'Runner':'Non Runner'}</span>
+    <div class="hdr-bell" onclick="navigate('notifications')">${icon('bell',18)}${S.getUnreadCount()>0?'<span class="bell-dot"></span>':''}</div>
+    <div class="hdr-icon" onclick="navigate('profile')">${initialsOf(u.name)}</div>
+  </div>
+  <div class="scroll-body">
+    <div class="home-hero">
+      <div style="display:flex;justify-content:space-between;align-items:flex-start;gap:12px">
+        <div style="cursor:pointer" onclick="navigate('profile')">
+          <div class="home-greeting">Good ${getGreeting()},</div>
+          <div class="home-name">${u.name}</div>
+        </div>
+        <button class="qr-pill-btn" onclick="showUserQR()">${icon('qr',16)} My QR</button>
+      </div>
+      ${isRunner ? `
+      <!-- ── RACE HIGHLIGHT: BIB / Wave / Start / QR — top priority for runners ── -->
+      <div class="race-highlight">
+        <div class="race-highlight-item">
+          <div class="race-highlight-label">BIB</div>
+          <div class="race-highlight-val">${u.bib||'—'}</div>
+        </div>
+        <div class="race-highlight-item">
+          <div class="race-highlight-label">Wave</div>
+          <div class="race-highlight-val">${u.wave||'—'}</div>
+        </div>
+        <div class="race-highlight-item">
+          <div class="race-highlight-label">Start</div>
+          <div class="race-highlight-val">05:00</div>
+        </div>
+        <div class="race-highlight-qr" onclick="showUserQR()">${icon('qr',20)}</div>
+      </div>
+      <!-- expo info kept as secondary/compact for runners -->
+      ${now ? `
+      <div class="race-secondary-row" onclick="navigate('activity',{id:'${now.id}'})">
+        <div class="race-secondary-label">Expo now</div>
+        <div><div class="race-secondary-title">${now.name}</div><div class="race-secondary-meta">${now.time} · ${now.location}</div></div>
+      </div>` : ''}
+      ${next ? `
+      <div class="race-secondary-row" onclick="navigate('activity',{id:'${next.id}'})">
+        <div class="race-secondary-label">Up next</div>
+        <div><div class="race-secondary-title">${next.name}</div><div class="race-secondary-meta">${next.time} · ${next.location}</div></div>
+      </div>` : ''}
+      ` : `
+      <!-- non-runners: expo is the main focus -->
+      <div class="stat-big">
+        <div class="stat-big-num">${stamps}</div>
+        <div class="stat-big-label">of 12 stamps collected so far</div>
+      </div>
+      ${now ? `
+      <div class="now-card" onclick="navigate('activity',{id:'${now.id}'})">
+        <div class="now-label">Happening now</div>
+        <div class="now-title">${now.name}</div>
+        <div class="now-meta">${now.time} · ${now.location}</div>
+      </div>` : ''}
+      ${next ? `
+      <div class="upnext-card" onclick="navigate('activity',{id:'${next.id}'})">
+        <div class="upnext-label">Up next</div>
+        <div>
+          <div class="upnext-title">${next.name}</div>
+          <div class="upnext-meta">${next.time} · ${next.location}</div>
+        </div>
+      </div>` : ''}
+      `}
+    </div>
+
+    <!-- ── SPONSOR BANNER CAROUSEL ── -->
+    ${isRunner ? `<div style="padding:22px 18px 0;font-size:11px;font-weight:800;text-transform:uppercase;letter-spacing:.6px;color:var(--text2)">Explore the expo</div>` : ''}
+    <div style="padding:${isRunner?'8':'20'}px 18px 8px"><div class="section-title">Featured</div></div>
+    <div class="carousel-wrap" id="carousel-wrap">
+      <div class="carousel-track" id="carousel-track">
+        ${SPONSOR_BANNERS.map((b,i) => `
+        <div class="carousel-slide" onclick="navigate('brand',{id:'${b.brandId}'})" data-index="${i}" style="background:linear-gradient(135deg,${b.bg[0]},${b.bg[1]})">
+          <div class="carousel-brand">${b.brand}</div>
+          <div class="carousel-title">${b.tagline}</div>
+          <div class="carousel-cta">${b.cta}</div>
+        </div>`).join('')}
+      </div>
+    </div>
+    <div class="carousel-dots" id="carousel-dots">
+      ${SPONSOR_BANNERS.map((_,i) => `<div class="carousel-dot ${i===0?'active':''}" id="cdot-${i}"></div>`).join('')}
+    </div>
+
+    <div style="padding:8px 18px 0"><div class="section-title">Quick Access</div></div>
+    <div class="bento-grid">
+      ${isRunner ? `
+      <div class="bento-tile bento-dark row2" onclick="navigate('race')">
+        ${icon('flag',22)}
+        <div><div class="bento-label">Race<br>Info</div><div class="bento-sub">Pack, checklist &amp; more</div></div>
+      </div>
+      <div class="bento-tile bento-light" onclick="navigate('schedule')">
+        ${icon('calendar',22)}
+        <div><div class="bento-label">Schedule</div><div class="bento-sub">Today's activities</div></div>
+      </div>
+      <div class="bento-tile bento-light" onclick="navigate('map')">
+        ${icon('compass',22)}
+        <div><div class="bento-label">Explore Map</div><div class="bento-sub">Find your way</div></div>
+      </div>
+      ` : `
+      <div class="bento-tile bento-dark row2" onclick="navigate('brands')">
+        ${icon('tag',22)}
+        <div><div class="bento-label">Explore<br>Brands</div><div class="bento-sub">100+ brands</div></div>
+      </div>
+      <div class="bento-tile bento-light" onclick="navigate('schedule')">
+        ${icon('calendar',22)}
+        <div><div class="bento-label">Schedule</div><div class="bento-sub">Today's activities</div></div>
+      </div>
+      <div class="bento-tile bento-light" onclick="navigate('map')">
+        ${icon('compass',22)}
+        <div><div class="bento-label">Explore Map</div><div class="bento-sub">Find your way</div></div>
+      </div>
+      `}
+    </div>
+
+    <!-- ── MY STAMPS + DEALS & OFFER BUTTONS ── -->
+    <div style="padding:6px 18px 18px;display:flex;flex-direction:column;gap:12px">
+      <div class="bento-tile bento-accent" onclick="navigate('stamps')" style="flex-direction:row;align-items:center;justify-content:space-between;height:auto;padding:18px">
+        <div><div class="bento-label">My Stamps</div><div class="bento-sub">${stamps} / 12 collected</div></div>
+        ${icon('award',22)}
+      </div>
+      ${isRunner ? `
+      <div class="bento-tile bento-dark" onclick="navigate('brands')" style="flex-direction:row;align-items:center;justify-content:space-between;height:auto;padding:18px">
+        <div style="display:flex;align-items:center;gap:12px">
+          ${icon('tag',20)}
+          <div><div class="bento-label">Explore Brands</div><div class="bento-sub">100+ brands</div></div>
+        </div>
+      </div>
+      ` : ''}
+      <div class="bento-tile bento-dark" onclick="navigate('promotions')" style="flex-direction:row;align-items:center;justify-content:space-between;height:auto;padding:18px">
+        <div style="display:flex;align-items:center;gap:12px">
+          ${icon('percent',20)}
+          <div><div class="bento-label">Deals &amp; Offer</div><div class="bento-sub">${PROMO_SLOTS.length} active promotions</div></div>
+        </div>
+      </div>
+    </div>
+
+    ${u.isAdmin ? `
+    <div style="padding:0 18px 18px">
+      <button class="btn btn-secondary btn-full" onclick="navigate('admin')">Admin dashboard</button>
+    </div>` : ''}
+  </div>`;
+}
+
+// ── RACE (runner-only hub) ──
+function renderRace() {
+  const u = S.user;
+  const done = u.checklistDone || [];
+  return `
+  <div class="hdr">
+    ${backBtn('home')}
+    <div class="hdr-title">Race</div>
+    <div class="hdr-bell" onclick="navigate('notifications')">${icon('bell',18)}${S.getUnreadCount()>0?'<span class="bell-dot"></span>':''}</div>
+  </div>
+  <div class="scroll-body">
+    <div style="background:var(--black);padding:20px 18px;border-radius:0 0 var(--r-lg) var(--r-lg);display:flex;align-items:center;justify-content:space-between;gap:12px">
+      <div>
+        <div style="font-family:var(--f-head);font-size:20px;font-weight:800;color:#fff">BIB ${u.bib||'—'}</div>
+        <div style="font-size:12px;color:rgba(255,255,255,.6);margin-top:2px">${u.wave||'—'} · Start 05:00</div>
+      </div>
+      <button class="btn btn-accent btn-sm" onclick="showUserQR()">${icon('qr',15)} My QR</button>
+    </div>
+
+    <div style="padding:18px 18px 0"><div class="section-title" style="font-size:16px">Race pack collection</div></div>
+    <div style="padding:0 18px 18px">
+      <div class="card card-pad">
+        <div class="pass-row" style="margin-top:0"><div class="pass-row-label">${icon('calendar',17)} Dates</div><div class="pass-row-val">Oct 20–23</div></div>
+        <div class="pass-row"><div class="pass-row-label">${icon('clock',17)} Hours</div><div class="pass-row-val">10:00–20:00</div></div>
+        <div class="pass-row"><div class="pass-row-label">${icon('pin',17)} Location</div><div class="pass-row-val">Main Expo Hall</div></div>
+        <div style="font-size:12px;color:var(--text2);margin-top:12px;line-height:1.6">Bring a valid ID and your registration confirmation (your QR above) to collect your BIB, jersey, and race pack.</div>
+      </div>
+    </div>
+
+    <div style="padding:0 18px 8px"><div class="section-title" style="font-size:16px">Race day checklist</div></div>
+    <div style="padding:0 18px 18px">
+      <div class="card card-pad">
+        ${RACE_CHECKLIST.map((item,i) => `
+        <div class="check-row" onclick="toggleChecklist(${i})" style="cursor:pointer">
+          <div class="check-mark" style="background:${done[i]?'var(--red)':'var(--border)'}">${done[i]?icon('check',13):''}</div>
+          <div class="check-label" style="${done[i]?'text-decoration:line-through;color:var(--text3)':''}">${item}</div>
+        </div>`).join('')}
+      </div>
+    </div>
+
+    <div style="padding:0 18px 8px"><div class="section-title" style="font-size:16px">Leaderboard</div></div>
+    <div style="padding:0 18px 18px">
+      <div class="card" style="overflow:hidden">
+        <div style="padding:12px 16px;font-size:11px;color:var(--text2);border-bottom:1px solid var(--border)">Sample results — live standings unlock on race day</div>
+        ${DEMO_LEADERBOARD.map((r,i) => `
+        <div class="act-card" style="cursor:default">
+          <div class="act-time" style="min-width:26px">${i+1}</div>
+          <div class="act-info">
+            <div class="act-name">${r.name}</div>
+            <div class="act-loc">${r.category}</div>
+          </div>
+          <div style="font-family:var(--f-head);font-weight:800;font-size:14px">${r.time}</div>
+        </div>`).join('')}
+      </div>
+    </div>
+  </div>`;
+}
+
+function toggleChecklist(i) {
+  if (!S.user.checklistDone) S.user.checklistDone = [];
+  S.user.checklistDone[i] = !S.user.checklistDone[i];
+  S.save();
+  navigate('race');
+}
+
+// ── PROMOTIONS (L2) ──
+function renderPromotions() {
+  return `
+  <div class="hdr">
+    ${backBtn('home')}
+    <div class="hdr-title">Deals &amp; offers</div>
+    <div style="width:38px"></div>
+  </div>
+  <div class="scroll-body">
+    <div style="padding:18px 18px 10px"><div class="section-title">Sponsor banners</div></div>
+    <div style="padding:0 18px;display:flex;flex-direction:column;gap:12px;margin-bottom:8px">
+      ${SPONSOR_BANNERS.map(b => `
+      <div onclick="navigate('brand',{id:'${b.brandId}'})" style="border-radius:var(--r);overflow:hidden;cursor:pointer;box-shadow:var(--sh-md);aspect-ratio:16/9;display:flex;flex-direction:column;justify-content:flex-end;padding:20px 22px;background:linear-gradient(135deg,${b.bg[0]},${b.bg[1]})">
+        <div style="font-size:10px;font-weight:800;text-transform:uppercase;letter-spacing:1.2px;color:rgba(255,255,255,.7);margin-bottom:4px">${b.brand}</div>
+        <div style="font-family:var(--f-head);font-size:19px;font-weight:700;color:#fff;line-height:1.25;max-width:80%">${b.tagline}</div>
+        <div style="display:inline-flex;align-items:center;gap:5px;margin-top:12px;font-size:12px;font-weight:800;color:var(--black);background:#fff;border-radius:var(--pill);padding:6px 16px;width:fit-content">${b.cta}</div>
+      </div>`).join('')}
+    </div>
+
+    <div style="padding:16px 18px 10px"><div class="section-title">Active promotions</div></div>
+    <div style="padding:0 18px;display:flex;flex-direction:column;gap:10px;margin-bottom:24px">
+      ${PROMO_SLOTS.map(p => `
+      <div onclick="navigate('brand',{id:'${p.brandId}'})" style="border-radius:var(--r);overflow:hidden;cursor:pointer;box-shadow:var(--sh);background:linear-gradient(135deg,${p.bg[0]},${p.bg[1]});padding:16px 20px;display:flex;align-items:center;gap:14px">
+        <div style="flex:1">
+          <div style="font-size:10px;font-weight:800;text-transform:uppercase;letter-spacing:1px;color:rgba(255,255,255,.6);margin-bottom:2px">${p.brand}</div>
+          <div style="font-family:var(--f-head);font-size:16px;font-weight:700;color:#fff;line-height:1.2">${p.title}</div>
+          <div style="font-size:12px;color:rgba(255,255,255,.8);margin-top:3px">${p.desc}</div>
+        </div>
+        <div style="color:rgba(255,255,255,.6);flex-shrink:0">${icon('chevronRight',20)}</div>
+      </div>`).join('')}
+    </div>
+  </div>`;
+}
+
+// ── NOTIFICATIONS ──
+function renderNotifications() {
+  const list = (S.notifications||[]).slice().reverse();
+  return `
+  <div class="hdr">
+    <div class="hdr-back" onclick="goBack()">${icon('chevronLeft',20)}</div>
+    <div class="hdr-title">Notifications</div>
+    <div style="width:38px"></div>
+  </div>
+  <div class="scroll-body">
+    ${list.length ? `
+    <div style="padding:14px 18px 18px">
+      ${list.map(n => `
+      <div class="notif-item ${n.read?'':'unread'}" onclick="openNotification('${n.id}')">
+        <div class="notif-dot"></div>
+        <div>
+          <div class="notif-title">${n.title}</div>
+          <div class="notif-desc">${n.body}</div>
+          <div class="notif-time">${n.time}</div>
+        </div>
+      </div>`).join('')}
+    </div>` : `
+    <div style="padding:60px 24px;text-align:center;color:var(--text2)">No notifications yet</div>`}
+  </div>`;
+}
+
+function openNotification(id) {
+  S.markNotifRead(id);
+  navigate('notifications');
+}
+
+// ── SCHEDULE ──
+function renderSchedule() {
+  const days = [
+    {id:'22',label:'Wed',num:'22'},
+    {id:'23',label:'Thu',num:'23'},
+    {id:'24',label:'Fri',num:'24'},
+    {id:'25',label:'Sat',num:'25'},
+  ];
+  const acts = S.activities.filter(a => a.date === S.selectedDay);
+  return `
+  <div class="hdr">
+    ${backBtn('home')}
+    <div class="hdr-title">Schedule</div>
+    <div class="hdr-bell" onclick="navigate('notifications')">${icon('bell',18)}${S.getUnreadCount()>0?'<span class="bell-dot"></span>':''}</div>
+    <div class="hdr-icon" onclick="navigate('profile')">${initialsOf(S.user.name)}</div>
+  </div>
+  <div style="background:var(--black);padding:0 18px 18px;border-radius:0 0 var(--r-lg) var(--r-lg)">
+    <div style="font-family:var(--f-head);font-size:24px;font-weight:800;color:#fff;padding-top:10px;margin-bottom:14px">October 2026</div>
+    <div class="day-picker">
+      ${days.map(d=>`
+      <div onclick="S.selectedDay='${d.id}';navigate('schedule')" class="day-pill" style="
+        background:${S.selectedDay===d.id?'var(--red)':'rgba(255,255,255,.08)'};
+        color:${S.selectedDay===d.id?'#fff':'rgba(255,255,255,.6)'}">
+        <div class="day-pill-dow">${d.label}</div>
+        <div class="day-pill-num">${d.num}</div>
+      </div>`).join('')}
+    </div>
+  </div>
+  <div class="scroll-body" style="padding-bottom:100px">
+    <div class="card" style="margin:18px 18px 0;overflow:hidden">
+      ${acts.length ? acts.map(a => `
+      <div class="act-card" onclick="navigate('activity',{id:'${a.id}'})">
+        <div class="act-time">${a.time}</div>
+        <div class="act-info">
+          <div class="act-name">${a.name}</div>
+          <div class="act-loc">${a.location}</div>
+          <span class="badge-cat" style="margin-top:6px;display:inline-block">${a.category}</span>
+        </div>
+        <div class="act-chevron">${icon('chevronRight',18)}</div>
+      </div>`).join('') : `
+      <div style="padding:36px;text-align:center;color:var(--text2)">No activities scheduled for this day</div>`}
+    </div>
+  </div>`;
+}
+
+// ── ACTIVITY DETAIL ──
+function renderActivity(params) {
+  const id = params && params.id;
+  const a = S.activities.find(x => x.id === id);
+  if (!a) return `<div class="hdr">${backBtn('schedule')}<div class="hdr-title">Activity</div></div><div style="padding:32px;text-align:center">Not found</div>`;
+  const dayMap = {'22':'Wed, 22 Oct','23':'Thu, 23 Oct','24':'Fri, 24 Oct','25':'Sat, 25 Oct'};
+  return `
+  <div class="hdr">
+    <div class="hdr-back" onclick="goBack()">${icon('chevronLeft',20)}</div>
+    <div class="hdr-title">Activity</div>
+    <div style="width:38px"></div>
+  </div>
+  <div class="scroll-body">
+    <div class="detail-hero">
+      <div class="detail-category">${a.category}</div>
+      <div class="detail-title">${a.name}</div>
+      <div class="detail-meta-row">
+        <div class="detail-chip">${icon('clock',15)} ${a.time}</div>
+        <div class="detail-chip">${icon('calendar',15)} ${dayMap[a.date]||a.date}</div>
+        <div class="detail-chip">${icon('pin',15)} ${a.location}</div>
+      </div>
+    </div>
+    <div class="detail-body">
+      <div class="detail-section">
+        <div class="detail-section-title">About this activity</div>
+        <div class="detail-desc">${a.desc}</div>
+      </div>
+      <button class="btn btn-secondary btn-full" onclick="navigate('map',{zone:'${a.zone}'})">View on expo map</button>
+    </div>
+  </div>`;
+}
+
+// ── BRANDS ──
+function renderBrands() {
+  const cats = ['all','Running','Sports','Fashion','Lifestyle','Food & Beverage','Wellness'];
+  const filtered = S.brands.filter(b => {
+    const matchCat = S.brandFilter === 'all' || b.category === S.brandFilter;
+    const matchSearch = !S.brandSearch || b.name.toLowerCase().includes(S.brandSearch.toLowerCase()) || b.category.toLowerCase().includes(S.brandSearch.toLowerCase());
+    return matchCat && matchSearch;
+  });
+  return `
+  <div class="hdr">
+    ${backBtn('home')}
+    <div class="hdr-title">Brands</div>
+    <div class="hdr-bell" onclick="navigate('notifications')">${icon('bell',18)}${S.getUnreadCount()>0?'<span class="bell-dot"></span>':''}</div>
+    <div class="hdr-icon" onclick="navigate('profile')">${initialsOf(S.user.name)}</div>
+  </div>
+  <div style="background:var(--black);padding:0 18px 18px;border-radius:0 0 var(--r-lg) var(--r-lg)">
+    <div style="font-family:var(--f-head);font-size:24px;font-weight:800;color:#fff;padding-top:10px;margin-bottom:12px">Explore brands</div>
+    <div style="position:relative">
+      <input class="form-input" id="brand-search" placeholder="Search brands" value="${S.brandSearch}" oninput="S.brandSearch=this.value;navigate('brands')" style="padding-left:14px;background:rgba(255,255,255,.1);border-color:rgba(255,255,255,.15);color:#fff;height:44px">
+    </div>
+  </div>
+  <div style="background:var(--bg);padding-top:14px;padding-bottom:14px">
+    <div class="pill-row">
+      ${cats.map(c=>`
+      <div class="pill ${S.brandFilter===c?'active':''}" onclick="S.brandFilter='${c}';navigate('brands')">${c==='all'?'All Categories':c}</div>`).join('')}
+    </div>
+  </div>
+  <div class="scroll-body" style="padding:14px 18px;padding-bottom:100px">
+    ${filtered.length ? `
+    <div style="display:grid;grid-template-columns:1fr 1fr;gap:12px">
+      ${filtered.map(b=>`
+      <div class="brand-card" onclick="navigate('brand',{id:'${b.id}'})">
+        <div class="brand-logo-wrap"><div class="brand-avatar">${initialsOf(b.name)}</div></div>
+        <div class="brand-body">
+          <div class="brand-name">${b.name}</div>
+          <div style="margin-top:5px"><span class="badge-cat">${b.category}</span></div>
+          <div class="brand-zone">${b.zone}</div>
+        </div>
+      </div>`).join('')}
+    </div>` : `
+    <div style="padding:48px 0;text-align:center;color:var(--text2)">No brands found</div>`}
+  </div>`;
+}
+
+// ── BRAND DETAIL ──
+function renderBrand(params) {
+  const id = params && params.id;
+  const b = S.brands.find(x => x.id === id);
+  if (!b) return `<div class="hdr">${backBtn('brands')}<div class="hdr-title">Brand</div></div>`;
+  return `
+  <div class="hdr">
+    <div class="hdr-back" onclick="goBack()">${icon('chevronLeft',20)}</div>
+    <div class="hdr-title">Brand</div>
+    <div style="width:38px"></div>
+  </div>
+  <div class="scroll-body">
+    <div style="background:var(--bg);padding:32px 20px;text-align:center;border-bottom:1px solid var(--border)">
+      <div class="brand-avatar" style="width:64px;height:64px;font-size:20px;margin:0 auto 14px">${initialsOf(b.name)}</div>
+      <div style="font-family:var(--f-head);font-size:24px;font-weight:800">${b.name}</div>
+      <div style="margin-top:10px"><span class="badge-cat" style="font-size:12px;padding:5px 14px">${b.category}</span></div>
+    </div>
+    <div class="detail-body">
+      ${b.offer ? `
+      <div class="offer-card">
+        <div class="offer-label">Special offer</div>
+        <div class="offer-text">${b.offer}</div>
+      </div>` : ''}
+      <div class="detail-section">
+        <div class="detail-section-title">About</div>
+        <div class="detail-desc">${b.desc}</div>
+      </div>
+      <div class="detail-section">
+        <div class="detail-section-title">Location</div>
+        <div style="display:flex;align-items:center;gap:10px;background:var(--bg);border-radius:var(--r);padding:14px">
+          ${icon('pin',22)}
+          <div>
+            <div style="font-weight:700;font-size:15px;font-family:var(--f-head)">${b.zone}</div>
+            <div style="font-size:12px;color:var(--text2);margin-top:2px">Tap the map button to find this brand</div>
+          </div>
+        </div>
+      </div>
+      <button class="btn btn-secondary btn-full" onclick="navigate('map',{zone:'${b.zoneId}'})">View on expo map</button>
+    </div>
+  </div>`;
+}
+
+// ── MAP ──
+function renderMap(params) {
+  return `
+  <div class="hdr">
+    ${backBtn('home')}
+    <div class="hdr-title">Expo map</div>
+    <div class="hdr-bell" onclick="navigate('notifications')">${icon('bell',18)}${S.getUnreadCount()>0?'<span class="bell-dot"></span>':''}</div>
+    <div class="hdr-icon" onclick="navigate('profile')">${initialsOf(S.user.name)}</div>
+  </div>
+  <div style="background:var(--black);padding:0 18px 14px;border-radius:0 0 var(--r-lg) var(--r-lg)">
+    <div style="font-family:var(--f-head);font-size:24px;font-weight:800;color:#fff;padding-top:10px;margin-bottom:4px">Expo map</div>
+    <div style="font-size:13px;color:rgba(255,255,255,.55)">Map coming soon</div>
+  </div>
+  <div id="map-container" style="display:flex;align-items:center;justify-content:center;padding:24px">
+    <div style="width:100%;height:100%;border:2px dashed var(--border);border-radius:var(--r-lg);display:flex;align-items:center;justify-content:center;color:var(--text2);font-size:13px;font-weight:600">
+      [map placeholder]
+    </div>
+  </div>`;
+}
+
+// ── STAMPS ──
+function renderStamps() {
+  const stamps = S.getUserStamps();
+  const rewards = S.stampRewards;
+  const redeemed = S.user.redeemedMilestones || [];
+  const dots = Array.from({length:12},(_,i) => {
+    const isMilestone = (i + 1) % 3 === 0;
+    const isEarned    = i < stamps;
+    const classes     = `stamp-dot ${isEarned ? 'earned' : 'empty'} ${isMilestone ? 'milestone-dot' : ''}`;
+    return `<div class="${classes}">${isEarned ? (isMilestone ? icon('award',16) : icon('check',16)) : ''}</div>`;
+  }).join('');
+  return `
+  <div class="hdr">
+    ${backBtn('home')}
+    <div class="hdr-title">My stamps</div>
+    <div class="hdr-bell" onclick="navigate('notifications')">${icon('bell',18)}${S.getUnreadCount()>0?'<span class="bell-dot"></span>':''}</div>
+    <div class="hdr-icon" onclick="navigate('profile')">${initialsOf(S.user.name)}</div>
+  </div>
+  <div class="scroll-body">
+    <div style="background:var(--black);padding:24px 18px 22px;border-radius:0 0 var(--r-lg) var(--r-lg)">
+      <div style="font-family:var(--f-head);font-size:24px;font-weight:800;color:#fff;margin-bottom:4px">My stamps</div>
+      <div style="font-size:13px;color:rgba(255,255,255,.55);margin-bottom:16px">Collect stamps. Earn rewards.</div>
+      <button class="btn btn-ghost btn-sm" onclick="showStampQR()" style="gap:8px">${icon('qr',15)} Show stamp QR</button>
+    </div>
+    <div style="margin:18px">
+      <div class="card" style="background:var(--red)">
+        <div style="padding:18px 18px 4px;display:flex;justify-content:space-between;align-items:center">
+          <div style="font-size:13px;font-weight:700;color:rgba(255,255,255,.75);text-transform:uppercase;letter-spacing:.8px">Stamp card</div>
+          <div style="font-family:var(--f-head);font-size:14px;font-weight:800;color:#fff">${stamps} / 12</div>
+        </div>
+        <div class="stamp-grid">${dots}</div>
+        <div style="padding:0 18px 18px">
+          <div style="background:rgba(255,255,255,.28);border-radius:99px;height:6px;overflow:hidden">
+            <div style="background:var(--black);height:100%;width:${(stamps/12*100).toFixed(1)}%;border-radius:99px;transition:width .5s ease"></div>
+          </div>
+          <div style="font-size:12px;color:rgba(255,255,255,.8);margin-top:8px;text-align:center">${stamps >= 12 ? 'Complete — collect your grand reward' : `${12-stamps} more stamp${12-stamps!==1?'s':''} to grand reward`}</div>
+        </div>
+      </div>
+    </div>
+    <div style="margin:0 18px 18px">
+      <div class="card card-pad" style="background:var(--red-dim)">
+        <div style="font-family:var(--f-head);font-size:14px;font-weight:700;color:var(--red-deep);margin-bottom:8px">How to collect stamps</div>
+        <div style="font-size:13px;color:var(--text2);line-height:1.7">
+          Visit participating brands and complete eligible purchases to earn stamps. Show your stamp QR at the Stamp Redemption counter — staff will scan it to add your stamp.
+        </div>
+        <div style="display:flex;gap:8px;margin-top:12px;flex-wrap:wrap">
+          <button class="btn btn-primary btn-sm" onclick="showStampQR()">Show stamp QR</button>
+          <button class="btn btn-secondary btn-sm" onclick="navigate('map',{zone:'stamp-redemption'})">Find counter</button>
+        </div>
+      </div>
+    </div>
+    <div style="padding:0 18px 8px"><div class="section-title">Reward milestones</div></div>
+    <div style="padding:0 18px 18px">
+      ${rewards.map(r => {
+        const isRedeemed = redeemed.includes(r.stamps);
+        const isUnlocked = stamps >= r.stamps;
+        let subText;
+        if (isRedeemed) subText = 'Redeemed';
+        else if (isUnlocked) subText = 'Unlocked — show QR to redeem';
+        else subText = 'Collect ' + r.stamps + ' stamps to unlock';
+        return `
+        <div class="milestone ${isUnlocked&&!isRedeemed?'reached':''} ${isRedeemed?'redeemed':''}">
+          <div class="milestone-num">${isUnlocked ? icon('check',16) : icon('lock',15)}</div>
+          <div class="milestone-info">
+            <div class="milestone-title">${r.reward}</div>
+            <div class="milestone-sub">${subText}</div>
+          </div>
+          ${isUnlocked && !isRedeemed ? `<button class="btn btn-sm btn-primary" style="flex-shrink:0;font-size:11px;padding:0 12px;height:32px" onclick="showStampQR()">QR</button>` : ''}
+        </div>`;
+      }).join('')}
+    </div>
+    <div style="padding:0 18px 18px">
+      <button class="btn btn-secondary btn-full btn-sm" onclick="S.addStamp();navigate('stamps')" ${stamps>=12?'disabled':''}>Demo: collect a stamp</button>
+    </div>
+  </div>`;
+}
+
+// ── PROFILE ──
+function renderProfile() {
+  const u = S.user;
+  const stamps = S.getUserStamps();
+  return `
+  <div class="hdr">
+    <div class="hdr-back" onclick="goBack()">${icon('chevronLeft',20)}</div>
+    <div class="hdr-title">My profile</div>
+    <div style="width:38px"></div>
+  </div>
+  <div class="scroll-body">
+    <div class="profile-hero">
+      <div class="profile-avatar">${initialsOf(u.name)}</div>
+      <div class="profile-name">${u.name}</div>
+      <div class="profile-email">${u.email}</div>
+      <div class="profile-badge-row">
+        ${u.isRunner
+          ? `<span class="badge badge-runner" style="font-size:13px;padding:7px 16px">Runner</span>`
+          : `<span class="badge badge-nonrunner" style="font-size:13px;padding:7px 16px;color:#fff;border-color:rgba(255,255,255,.3)">Visitor</span>`}
+      </div>
+    </div>
+    <div style="padding:18px">
+      <div class="card" style="margin-bottom:16px;overflow:hidden">
+        <div onclick="showUserQR()" style="padding:16px 18px;display:flex;align-items:center;gap:12px;cursor:pointer;border-bottom:1px solid var(--border)">
+          <div style="width:44px;height:44px;border-radius:12px;background:var(--red-dim);display:flex;align-items:center;justify-content:center;flex-shrink:0;color:var(--red)">${icon('qr',20)}</div>
+          <div style="flex:1">
+            <div style="font-family:var(--f-head);font-size:14px;font-weight:700">My QR code</div>
+            <div style="font-size:12px;color:var(--text2);margin-top:1px">Show at checkout &amp; stamp counters</div>
+          </div>
+          <div style="color:var(--text2)">${icon('chevronRight',18)}</div>
+        </div>
+        <div style="padding:16px 18px;display:flex;align-items:center;gap:12px;border-bottom:1px solid var(--border)">
+          <div style="width:32px;height:32px;display:flex;align-items:center;justify-content:center;color:var(--text2)">${icon('award',20)}</div>
+          <div>
+            <div style="font-size:13px;color:var(--text2)">Stamps collected</div>
+            <div style="font-family:var(--f-head);font-size:20px;font-weight:800">${stamps} <span style="font-size:13px;color:var(--text2);font-family:var(--f-body);font-weight:400">/ 12</span></div>
+          </div>
+          <button class="btn btn-sm btn-primary" style="margin-left:auto" onclick="navigate('stamps')">View</button>
+        </div>
+        <div style="padding:16px 18px;display:flex;align-items:center;gap:12px">
+          <div style="font-size:13px;color:var(--text2)">User ID</div>
+          <div style="font-size:13px;font-weight:700;font-family:monospace;margin-left:auto">${u.id}</div>
+        </div>
+      </div>
+      ${u.isAdmin ? `
+      <button class="btn btn-secondary btn-full" style="margin-bottom:12px" onclick="navigate('admin')">Admin dashboard</button>` : ''}
+      <button class="btn btn-full" onclick="S.logout()" style="background:var(--red-dim);color:var(--red-deep);font-weight:700">Sign out</button>
+    </div>
+  </div>`;
+}
+
+// ── ADMIN ──
+function renderAdmin() {
+  if (!S.user || !S.user.isAdmin) {
+    return `<div class="hdr"><div class="hdr-back" onclick="goBack()">${icon('chevronLeft',20)}</div><div class="hdr-title">Admin</div></div>
+    <div style="padding:32px;text-align:center;color:var(--text2)">Access denied.</div>`;
+  }
+  const tab = S.adminTab;
+  const tabs = [
+    {id:'overview',label:'Overview'},
+    {id:'activities',label:'Activities'},
+    {id:'brands',label:'Brands'},
+    {id:'stamps',label:'Stamps'},
+    {id:'users',label:'Users'},
+    {id:'transactions',label:'Transactions'},
+  ];
+
+  const totalTx = S.transactions.length;
+  const totalGMV = S.transactions.reduce((s,t)=>s+t.amount,0);
+  const runnerTx = S.transactions.filter(t=>t.isRunner);
+  const runnerGMV = runnerTx.reduce((s,t)=>s+t.amount,0);
+  const nonrunnerGMV = totalGMV - runnerGMV;
+
+  let content = '';
+  if (tab === 'overview') {
+    content = `
+    <div class="admin-section">
+      <div class="section-title" style="margin-bottom:12px">Transaction overview</div>
+      <div class="stats-grid">
+        <div class="stat-card stat-neutral"><div class="stat-val">${totalTx}</div><div class="stat-label">Total transactions</div></div>
+        <div class="stat-card stat-neutral"><div class="stat-val">Rp ${(totalGMV/1e6).toFixed(1)}M</div><div class="stat-label">Total GMV</div></div>
+        <div class="stat-card stat-accent"><div class="stat-val">Rp ${(runnerGMV/1e6).toFixed(1)}M</div><div class="stat-label">Runner GMV</div></div>
+        <div class="stat-card stat-neutral"><div class="stat-val">Rp ${(nonrunnerGMV/1e6).toFixed(1)}M</div><div class="stat-label">Visitor GMV</div></div>
+      </div>
+      <div class="section-title" style="margin-bottom:8px;margin-top:4px">Runner split</div>
+      <div class="card card-pad">
+        <div style="display:flex;justify-content:space-between;margin-bottom:8px">
+          <span style="font-size:13px;color:var(--text2)">Runner share</span>
+          <span style="font-size:13px;font-weight:700">${totalGMV?((runnerGMV/totalGMV)*100).toFixed(0):0}%</span>
+        </div>
+        <div style="background:var(--bg);border-radius:99px;height:10px;overflow:hidden">
+          <div style="background:var(--red);height:100%;width:${totalGMV?((runnerGMV/totalGMV)*100).toFixed(0):0}%;border-radius:99px"></div>
+        </div>
+        <div style="display:flex;justify-content:space-between;margin-top:8px">
+          <span style="font-size:12px;color:var(--text2)">Runners: ${runnerTx.length} tx</span>
+          <span style="font-size:12px;color:var(--text2)">Visitors: ${totalTx-runnerTx.length} tx</span>
+        </div>
+      </div>
+      <div style="margin-top:14px"><div class="section-title" style="margin-bottom:8px">Top brands by GMV</div></div>
+      <div class="admin-row">
+        ${Object.entries(S.transactions.reduce((acc,t)=>{acc[t.brand]=(acc[t.brand]||0)+t.amount;return acc},{}))
+          .sort((a,b)=>b[1]-a[1]).slice(0,5)
+          .map(([brand,gmv])=>`
+        <div class="admin-item" style="cursor:default">
+          <div class="admin-item-info">
+            <div class="admin-item-title">${brand}</div>
+            <div class="admin-item-sub">Rp ${gmv.toLocaleString('id-ID')}</div>
+          </div>
+        </div>`).join('')}
+      </div>
+    </div>`;
+  } else if (tab === 'activities') {
+    content = `
+    <div class="admin-section">
+      <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:12px">
+        <div class="section-title" style="margin:0">Activities (${S.activities.length})</div>
+        <button class="btn btn-primary btn-sm" onclick="adminAddActivity()">Add</button>
+      </div>
+      <div class="admin-row">
+        ${S.activities.map(a=>`
+        <div class="admin-item">
+          <div class="admin-item-info">
+            <div class="admin-item-title">${a.name}</div>
+            <div class="admin-item-sub">Oct ${a.date} · ${a.time} · ${a.location}</div>
+          </div>
+          <div class="admin-actions">
+            <button class="admin-btn" onclick="adminEditActivity('${a.id}')">Edit</button>
+            <button class="admin-btn" onclick="adminDeleteActivity('${a.id}')">Delete</button>
+          </div>
+        </div>`).join('')}
+      </div>
+    </div>`;
+  } else if (tab === 'brands') {
+    content = `
+    <div class="admin-section">
+      <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:12px">
+        <div class="section-title" style="margin:0">Brands (${S.brands.length})</div>
+        <button class="btn btn-primary btn-sm" onclick="adminAddBrand()">Add</button>
+      </div>
+      <div class="admin-row">
+        ${S.brands.map(b=>`
+        <div class="admin-item">
+          <div class="brand-avatar" style="width:32px;height:32px;font-size:11px">${initialsOf(b.name)}</div>
+          <div class="admin-item-info">
+            <div class="admin-item-title">${b.name}</div>
+            <div class="admin-item-sub">${b.category} · ${b.zone}</div>
+          </div>
+          <div class="admin-actions">
+            <button class="admin-btn" onclick="adminEditBrand('${b.id}')">Edit</button>
+            <button class="admin-btn" onclick="adminDeleteBrand('${b.id}')">Delete</button>
+          </div>
+        </div>`).join('')}
+      </div>
+    </div>`;
+  } else if (tab === 'stamps') {
+    const allUsers = S.users.length ? S.users : [];
+    content = `
+    <div class="admin-section">
+      <div class="section-title" style="margin-bottom:4px">Stamp rewards</div>
+      <div style="font-size:12px;color:var(--text2);margin-bottom:12px">Edit rewards or mark user milestones as redeemed after scanning their QR.</div>
+      ${S.stampRewards.map((r,i)=>{
+        const eligible = allUsers.filter(u=>(u.stamps||0)>=r.stamps);
+        const redeemedCount = eligible.filter(u=>(u.redeemedMilestones||[]).includes(r.stamps)).length;
+        return `
+        <div style="background:var(--surface);border-radius:var(--r);margin-bottom:12px;overflow:hidden;box-shadow:var(--sh)">
+          <div style="display:flex;align-items:center;gap:12px;padding:12px 14px;border-bottom:1px solid var(--border)">
+            <div class="milestone-num">${r.stamps}</div>
+            <div style="flex:1">
+              <div class="admin-item-title">${r.reward}</div>
+              <div class="admin-item-sub">${redeemedCount}/${eligible.length} eligible users redeemed</div>
+            </div>
+            <button class="admin-btn" onclick="adminEditReward(${i})">Edit</button>
+          </div>
+          ${eligible.length ? `
+          <div style="padding:8px 14px 12px">
+            <div style="font-size:11px;font-weight:700;text-transform:uppercase;letter-spacing:.6px;color:var(--text2);margin-bottom:8px">Eligible users</div>
+            ${eligible.map(u=>{
+              const isRedeemed = (u.redeemedMilestones||[]).includes(r.stamps);
+              return `
+              <div style="display:flex;align-items:center;gap:10px;padding:7px 0;border-bottom:1px solid var(--border)">
+                <div style="width:30px;height:30px;border-radius:50%;background:var(--black);display:flex;align-items:center;justify-content:center;font-size:11px;font-weight:800;color:#fff;flex-shrink:0">
+                  ${initialsOf(u.name)}
+                </div>
+                <div style="flex:1">
+                  <div style="font-size:13px;font-weight:600">${u.name}</div>
+                  <div style="font-size:11px;color:var(--text2)">${u.isRunner?'Runner':'Visitor'} · ${u.stamps} stamps</div>
+                </div>
+                ${isRedeemed
+                  ? `<span style="font-size:11px;font-weight:700;color:var(--text2)">Redeemed</span>`
+                  : `<button class="admin-btn" onclick="adminMarkRedeemed('${u.id}',${r.stamps})">Mark redeemed</button>`}
+              </div>`;
+            }).join('')}
+          </div>` : `<div style="padding:10px 14px;font-size:12px;color:var(--text2)">No users have reached this milestone yet.</div>`}
+        </div>`;
+      }).join('')}
+    </div>`;
+  } else if (tab === 'users') {
+    const allUsers = [...S.users];
+    if (!allUsers.find(u=>u.email==='budi.santoso@gmail.com')) {
+      allUsers.unshift({id:'u2',name:'Budi Santoso',email:'budi.santoso@gmail.com',isRunner:true,stamps:5},{id:'u3',name:'Dewi Lari',email:'dewi.run@gmail.com',isRunner:true,stamps:3});
+    }
+    content = `
+    <div class="admin-section">
+      <div class="section-title" style="margin-bottom:12px">Registered users (${allUsers.length})</div>
+      <div class="admin-row">
+        ${allUsers.map(u=>`
+        <div class="admin-item" style="cursor:default">
+          <div style="width:36px;height:36px;border-radius:50%;background:var(--black);display:flex;align-items:center;justify-content:center;font-size:13px;font-weight:800;color:#fff;flex-shrink:0">
+            ${initialsOf(u.name)}
+          </div>
+          <div class="admin-item-info">
+            <div class="admin-item-title">${u.name}</div>
+            <div class="admin-item-sub">${u.email} · ${u.isRunner?'Runner':'Visitor'} · ${u.stamps||0} stamps</div>
+          </div>
+        </div>`).join('')}
+      </div>
+    </div>`;
+  } else if (tab === 'transactions') {
+    content = `
+    <div class="admin-section">
+      <div class="section-title" style="margin-bottom:12px">Transactions (${S.transactions.length})</div>
+      <div class="card card-pad" style="margin-bottom:14px;font-size:12px;color:var(--text2)">BCA Smart POS integration ready. Connect via API or upload CSV to add live transactions.</div>
+      <div class="admin-row">
+        ${S.transactions.map(t=>`
+        <div class="admin-item" style="cursor:default">
+          <div class="admin-item-info">
+            <div class="admin-item-title">${t.brand}</div>
+            <div class="admin-item-sub">${t.userEmail} · Rp ${t.amount.toLocaleString('id-ID')}</div>
+            <div class="admin-item-sub">${new Date(t.time).toLocaleString('id-ID',{dateStyle:'short',timeStyle:'short'})}</div>
+          </div>
+        </div>`).join('')}
+      </div>
+    </div>`;
+  }
+
+  return `
+  <div class="hdr">
+    <div class="hdr-back" onclick="goBack()">${icon('chevronLeft',20)}</div>
+    <div class="hdr-title">Admin CMS</div>
+    <div style="width:38px"></div>
+  </div>
+  <div class="admin-tab-row">
+    ${tabs.map(t=>`<div class="admin-tab ${tab===t.id?'active':''}" onclick="S.adminTab='${t.id}';navigate('admin')">${t.label}</div>`).join('')}
+  </div>
+  <div class="scroll-body" style="padding-bottom:20px">${content}</div>`;
+}
+
+// ══════════════════════════════════════════════════════
+// AUTH HANDLERS
+// ══════════════════════════════════════════════════════
+function doLogin() {
+  const email = document.getElementById('login-email').value.trim();
+  const pwd = document.getElementById('login-pwd').value;
+  const err = document.getElementById('login-err');
+  if (!email) { err.textContent = 'Please enter your email'; return; }
+  if (!pwd) { err.textContent = 'Please enter your password'; return; }
+  S.login(email, pwd);
+  navigate(S.user.isAdmin ? 'admin' : 'home');
+}
+
+function doRegister() {
+  const name = document.getElementById('reg-name').value.trim();
+  const email = document.getElementById('reg-email').value.trim();
+  const pwd = document.getElementById('reg-pwd').value;
+  const err = document.getElementById('reg-err');
+  if (!name) { err.textContent = 'Please enter your name'; return; }
+  if (!email || !email.includes('@')) { err.textContent = 'Please enter a valid email'; return; }
+  if (pwd.length < 6) { err.textContent = 'Password must be at least 6 characters'; return; }
+  S.login(email, pwd, name);
+  navigate('home');
+}
+
+// ══════════════════════════════════════════════════════
+// ADMIN HANDLERS
+// ══════════════════════════════════════════════════════
+function adminAddActivity() {
+  showModal('Add activity', `
+    <div class="form-group"><label class="form-label">Activity name</label><input class="form-input" id="m-name" placeholder="e.g. Sprint Sale"></div>
+    <div style="display:grid;grid-template-columns:1fr 1fr;gap:10px">
+      <div class="form-group"><label class="form-label">Date</label>
+        <select class="form-input" id="m-date"><option value="22">22 Oct</option><option value="23">23 Oct</option><option value="24">24 Oct</option><option value="25">25 Oct</option></select>
+      </div>
+      <div class="form-group"><label class="form-label">Time</label><input class="form-input" id="m-time" placeholder="13:00"></div>
+    </div>
+    <div class="form-group"><label class="form-label">Location</label><input class="form-input" id="m-loc" placeholder="Main Stage"></div>
+    <div class="form-group"><label class="form-label">Category</label>
+      <select class="form-input" id="m-cat"><option>Event</option><option>Shopping</option><option>Community</option><option>Wellness</option><option>Lifestyle</option></select>
+    </div>
+    <div class="form-group"><label class="form-label">Description</label><textarea class="form-input" id="m-desc" rows="3" style="height:auto;padding-top:10px;resize:none"></textarea></div>
+    <button class="btn btn-primary btn-full" onclick="adminSaveActivity()">Save activity</button>
+  `);
+}
+
+function adminSaveActivity() {
+  const name = document.getElementById('m-name').value.trim();
+  if (!name) return;
+  const cat = document.getElementById('m-cat').value;
+  S.activities.push({
+    id: 'a'+Date.now(),
+    name,
+    date: document.getElementById('m-date').value,
+    time: document.getElementById('m-time').value||'12:00',
+    location: document.getElementById('m-loc').value||'Main Expo',
+    zone: 'main-expo',
+    desc: document.getElementById('m-desc').value||'',
+    category: cat,
+  });
+  S.save();
+  closeModal();
+  navigate('admin');
+}
+
+function adminEditActivity(id) {
+  const a = S.activities.find(x=>x.id===id);
+  if (!a) return;
+  showModal('Edit activity', `
+    <div class="form-group"><label class="form-label">Activity name</label><input class="form-input" id="m-name" value="${escHtml(a.name)}"></div>
+    <div style="display:grid;grid-template-columns:1fr 1fr;gap:10px">
+      <div class="form-group"><label class="form-label">Time</label><input class="form-input" id="m-time" value="${a.time}"></div>
+      <div class="form-group"><label class="form-label">Location</label><input class="form-input" id="m-loc" value="${escHtml(a.location)}"></div>
+    </div>
+    <div class="form-group"><label class="form-label">Description</label><textarea class="form-input" id="m-desc" rows="3" style="height:auto;padding-top:10px;resize:none">${escHtml(a.desc)}</textarea></div>
+    <button class="btn btn-primary btn-full" onclick="adminUpdateActivity('${id}')">Save changes</button>
+  `);
+}
+
+function adminUpdateActivity(id) {
+  const a = S.activities.find(x=>x.id===id);
+  if (!a) return;
+  a.name = document.getElementById('m-name').value.trim()||a.name;
+  a.time = document.getElementById('m-time').value||a.time;
+  a.location = document.getElementById('m-loc').value||a.location;
+  a.desc = document.getElementById('m-desc').value;
+  S.save(); closeModal(); navigate('admin');
+}
+
+function adminDeleteActivity(id) {
+  if (!confirm('Delete this activity?')) return;
+  S.activities = S.activities.filter(a=>a.id!==id);
+  S.save(); navigate('admin');
+}
+
+function adminAddBrand() {
+  showModal('Add brand', `
+    <div class="form-group"><label class="form-label">Brand name</label><input class="form-input" id="m-name" placeholder="Brand name"></div>
+    <div class="form-group"><label class="form-label">Category</label>
+      <select class="form-input" id="m-cat"><option>Running</option><option>Sports</option><option>Fashion</option><option>Lifestyle</option><option>Food & Beverage</option><option>Wellness</option></select>
+    </div>
+    <div class="form-group"><label class="form-label">Zone / location</label><input class="form-input" id="m-zone" placeholder="Main Expo — Block A"></div>
+    <div class="form-group"><label class="form-label">Description</label><textarea class="form-input" id="m-desc" rows="2" style="height:auto;padding-top:10px;resize:none"></textarea></div>
+    <div class="form-group"><label class="form-label">Special offer (optional)</label><input class="form-input" id="m-offer" placeholder="e.g. 20% off race day collection"></div>
+    <button class="btn btn-primary btn-full" onclick="adminSaveBrand()">Save brand</button>
+  `);
+}
+
+function adminSaveBrand() {
+  const name = document.getElementById('m-name').value.trim();
+  if (!name) return;
+  const zoneMap = {'Running':'main-expo','Sports':'main-expo','Fashion':'main-expo','Lifestyle':'lokalhood','Food & Beverage':'food-section','Wellness':'community-lounge'};
+  const cat = document.getElementById('m-cat').value;
+  S.brands.push({
+    id:'b'+Date.now(),name,
+    category:cat,
+    zone:document.getElementById('m-zone').value||'Main Expo',
+    zoneId:zoneMap[cat]||'main-expo',
+    desc:document.getElementById('m-desc').value||'',
+    offer:document.getElementById('m-offer').value||'',
+  });
+  S.save(); closeModal(); navigate('admin');
+}
+
+function adminEditBrand(id) {
+  const b = S.brands.find(x=>x.id===id);
+  if (!b) return;
+  showModal('Edit brand', `
+    <div class="form-group"><label class="form-label">Brand name</label><input class="form-input" id="m-name" value="${escHtml(b.name)}"></div>
+    <div class="form-group"><label class="form-label">Zone / location</label><input class="form-input" id="m-zone" value="${escHtml(b.zone)}"></div>
+    <div class="form-group"><label class="form-label">Description</label><textarea class="form-input" id="m-desc" rows="2" style="height:auto;padding-top:10px;resize:none">${escHtml(b.desc)}</textarea></div>
+    <div class="form-group"><label class="form-label">Special offer</label><input class="form-input" id="m-offer" value="${escHtml(b.offer||'')}"></div>
+    <button class="btn btn-primary btn-full" onclick="adminUpdateBrand('${id}')">Save changes</button>
+  `);
+}
+
+function adminUpdateBrand(id) {
+  const b = S.brands.find(x=>x.id===id);
+  if (!b) return;
+  b.name = document.getElementById('m-name').value.trim()||b.name;
+  b.zone = document.getElementById('m-zone').value||b.zone;
+  b.desc = document.getElementById('m-desc').value;
+  b.offer = document.getElementById('m-offer').value;
+  S.save(); closeModal(); navigate('admin');
+}
+
+function adminDeleteBrand(id) {
+  if (!confirm('Delete this brand?')) return;
+  S.brands = S.brands.filter(b=>b.id!==id);
+  S.save(); navigate('admin');
+}
+
+function adminMarkRedeemed(userId, stampCount) {
+  const u = S.users.find(x => x.id === userId);
+  if (!u) return;
+  if (!u.redeemedMilestones) u.redeemedMilestones = [];
+  if (!u.redeemedMilestones.includes(stampCount)) {
+    u.redeemedMilestones.push(stampCount);
+  }
+  if (S.user && S.user.id === userId) {
+    if (!S.user.redeemedMilestones) S.user.redeemedMilestones = [];
+    if (!S.user.redeemedMilestones.includes(stampCount)) {
+      S.user.redeemedMilestones.push(stampCount);
+    }
+  }
+  S.save();
+  navigate('admin');
+}
+
+function adminEditReward(i) {
+  const r = S.stampRewards[i];
+  showModal('Edit reward', `
+    <div class="form-group"><label class="form-label">Stamps required</label><input class="form-input" id="m-stamps" type="number" value="${r.stamps}" min="1" max="12"></div>
+    <div class="form-group"><label class="form-label">Reward description</label><input class="form-input" id="m-reward" value="${escHtml(r.reward)}"></div>
+    <button class="btn btn-primary btn-full" onclick="adminUpdateReward(${i})">Save changes</button>
+  `);
+}
+
+function adminUpdateReward(i) {
+  S.stampRewards[i].stamps = parseInt(document.getElementById('m-stamps').value)||S.stampRewards[i].stamps;
+  S.stampRewards[i].reward = document.getElementById('m-reward').value.trim()||S.stampRewards[i].reward;
+  S.save(); closeModal(); navigate('admin');
+}
+
+// ══════════════════════════════════════════════════════
+// MODAL
+// ══════════════════════════════════════════════════════
+function showModal(title, body) {
+  const m = document.getElementById('modal');
+  const o = document.getElementById('modal-overlay');
+  m.innerHTML = `<div style="position:relative"><div class="modal-title">${title}</div><div class="modal-close" onclick="closeModal()">${icon('close',16)}</div></div>${body}`;
+  o.classList.add('show');
+  requestAnimationFrame(()=>m.classList.add('show'));
+}
+
+function closeModal() {
+  const m = document.getElementById('modal');
+  const o = document.getElementById('modal-overlay');
+  m.classList.remove('show');
+  setTimeout(()=>o.classList.remove('show'),250);
+}
+
+document.getElementById('modal-overlay').addEventListener('click', function(e) {
+  if (e.target === this) closeModal();
+});
+
+// ══════════════════════════════════════════════════════
+// BANNER CAROUSEL
+// ══════════════════════════════════════════════════════
+let _carouselTimer = null;
+let _carouselIdx   = 0;
+let _carouselTotal = SPONSOR_BANNERS.length;
+let _touchStartX   = 0;
+
+function initCarousel() {
+  const track = document.getElementById('carousel-track');
+  if (!track) return;
+  _carouselIdx   = 0;
+  _carouselTotal = SPONSOR_BANNERS.length;
+  clearInterval(_carouselTimer);
+  _carouselTimer = setInterval(() => carouselGo(_carouselIdx + 1), 4000);
+  carouselRender();
+
+  const wrap = document.getElementById('carousel-wrap');
+  if (!wrap) return;
+  wrap.addEventListener('touchstart', e => { _touchStartX = e.touches[0].clientX; }, {passive:true});
+  wrap.addEventListener('touchend', e => {
+    const dx = e.changedTouches[0].clientX - _touchStartX;
+    if (Math.abs(dx) > 40) carouselGo(_carouselIdx + (dx < 0 ? 1 : -1));
+  }, {passive:true});
+}
+
+function carouselGo(idx) {
+  _carouselIdx = ((idx % _carouselTotal) + _carouselTotal) % _carouselTotal;
+  clearInterval(_carouselTimer);
+  _carouselTimer = setInterval(() => carouselGo(_carouselIdx + 1), 4000);
+  carouselRender();
+}
+
+function carouselRender() {
+  const track = document.getElementById('carousel-track');
+  if (track) track.style.transform = 'translateX(-' + (_carouselIdx * 100) + '%)';
+  for (let i = 0; i < _carouselTotal; i++) {
+    const dot = document.getElementById('cdot-' + i);
+    if (dot) dot.className = 'carousel-dot' + (i === _carouselIdx ? ' active' : '');
+  }
+}
+
+// ══════════════════════════════════════════════════════
+// QR
+// ══════════════════════════════════════════════════════
+function renderQR(elId, data, size) {
+  setTimeout(() => {
+    const el = document.getElementById(elId);
+    if (!el) return;
+    el.innerHTML = '';
+    if (typeof QRCode !== 'undefined') {
+      new QRCode(el, {text: data, width: size, height: size, colorDark: '#0A0A0A', colorLight: '#ffffff', correctLevel: QRCode.CorrectLevel.M});
+    } else {
+      el.innerHTML = `<div style="width:${size}px;height:${size}px;background:var(--bg);border-radius:12px"></div>`;
+    }
+  }, 80);
+}
+
+function showUserQR() {
+  const u = S.user;
+  const qrData = `JRF2026|UID:${u.id}|${u.isRunner?'RUNNER':'VISITOR'}|NAME:${u.name}`;
+  const qrCaption = u.isRunner
+    ? 'Show this QR to collect your race pack, check in on race day, or log purchases with expo tenants.'
+    : 'Show this QR at checkout. The tenant will scan it to log your purchase.';
+  showModal('My QR code', `
+    <div style="text-align:center">
+      <div style="font-size:13px;color:var(--text2);margin-bottom:16px">${qrCaption}</div>
+      <div class="qr-box" id="qr-render-user" style="justify-content:center"></div>
+      <div style="margin-top:14px"><span class="badge ${u.isRunner?'badge-runner':'badge-nonrunner'}">${u.isRunner?'Runner':'Visitor'}</span></div>
+      <div style="font-size:11px;font-family:monospace;color:var(--text2);margin-top:8px">${u.id}</div>
+      <div style="font-family:var(--f-head);font-size:13px;font-weight:700;color:var(--text);margin-top:4px">${u.name}</div>
+    </div>
+  `);
+  renderQR('qr-render-user', qrData, 200);
+}
+
+function showStampQR() {
+  const u = S.user;
+  const stamps = S.getUserStamps();
+  const qrData = `JRF2026|STAMP-SCAN|UID:${u.id}|STAMPS:${stamps}|TS:${Date.now()}`;
+  showModal('Stamp QR code', `
+    <div style="text-align:center">
+      <div style="font-size:13px;color:var(--text2);margin-bottom:16px">Show this at the Stamp Redemption counter. Staff will scan it to add your stamp or redeem a reward.</div>
+      <div class="qr-box" id="qr-render-stamp" style="justify-content:center"></div>
+      <div style="font-family:var(--f-head);font-size:13px;font-weight:800;background:var(--bg);padding:7px 18px;border-radius:var(--pill);margin-top:14px;display:inline-block">${stamps} / 12 Stamps</div>
+      <div style="font-size:11px;font-family:monospace;color:var(--text2);margin-top:8px">${u.id}</div>
+    </div>
+  `);
+  renderQR('qr-render-stamp', qrData, 200);
+}
+
+// ══════════════════════════════════════════════════════
+// STAMP TOAST
+// ══════════════════════════════════════════════════════
+function showStampToast() {
+  const t = document.getElementById('stamp-toast');
+  const stamps = S.getUserStamps();
+  t.innerHTML = `Stamp collected — you now have <strong>${stamps}</strong> of 12`;
+  t.classList.add('show');
+  setTimeout(()=>t.classList.remove('show'), 3000);
+}
+
+// ══════════════════════════════════════════════════════
+// HELPERS
+// ══════════════════════════════════════════════════════
+function getCurrentActivity() {
+  const now = new Date();
+  const h = now.getHours(), m = now.getMinutes();
+  const cur = h*60+m;
+  const day = String(now.getDate());
+  const acts = S.activities.filter(a=>a.date===day);
+  return acts.find(a=>{
+    const [ah,am] = a.time.split(':').map(Number);
+    const start = ah*60+am;
+    return cur >= start && cur < start+90;
+  }) || (acts.length ? acts[0] : null);
+}
+
+function getNextActivity() {
+  const now = new Date();
+  const cur = now.getHours()*60+now.getMinutes();
+  const day = String(now.getDate());
+  const acts = S.activities.filter(a=>a.date===day);
+  const next = acts.find(a=>{
+    const [ah,am] = a.time.split(':').map(Number);
+    return ah*60+am > cur+90;
+  });
+  return next || (acts.length > 1 ? acts[1] : null);
+}
+
+function getGreeting() {
+  const h = new Date().getHours();
+  if (h < 12) return 'morning';
+  if (h < 17) return 'afternoon';
+  return 'evening';
+}
+
+function escHtml(str) {
+  return (str||'').replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;').replace(/"/g,'&quot;');
+}
+
+function copyDemoEmail(email, el) {
+  const original = el.textContent;
+  const flash = () => { el.textContent = 'Copied!'; setTimeout(() => { el.textContent = original; }, 1200); };
+  const fallback = () => {
+    const ta = document.createElement('textarea');
+    ta.value = email;
+    ta.style.position = 'fixed';
+    ta.style.left = '-9999px';
+    document.body.appendChild(ta);
+    ta.select();
+    try { document.execCommand('copy'); } catch(e) {}
+    document.body.removeChild(ta);
+    flash();
+  };
+  if (navigator.clipboard && navigator.clipboard.writeText) {
+    navigator.clipboard.writeText(email).then(flash).catch(fallback);
+  } else {
+    fallback();
+  }
+}
+
+// ══════════════════════════════════════════════════════
+// BOOT
+// ══════════════════════════════════════════════════════
+S.init();
+if (S.user) {
+  navigate(S.user.isAdmin ? 'admin' : 'home');
+} else {
+  navigate('login');
+}
+</script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/qrcodejs/1.0.0/qrcode.min.js"></script>
+</body>
+</html>
